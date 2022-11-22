@@ -1,0 +1,83 @@
+/* implementing the base grid */
+.header { grid-area: myHeader; }
+.menu { grid-area: myMenu; }
+.mainToChange { grid-area: myMain; }
+.footer { grid-area: myFooter; }
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+      'myHeader myHeader myHeader myHeader myHeader myHeader'
+      'myMenu myMain myMain myMain myMain myMain'
+      'myFooter myFooter myFooter myFooter myFooter myFooter';
+    gap: 10px;
+    background-color: red;
+    padding: 10px;
+  }
+
+/*   side bar */
+.menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15%;
+}
+.menu a{
+    padding: 8%;
+    text-decoration: none;
+    color: white;
+    width: 100%;
+}
+.menu-option:hover:not(.active){
+    background-color: white;
+    color: red;
+    text-decoration: none;
+}
+/*header*/
+.header h2{
+    text-align: right;
+    color: white;
+}
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+/* NAV FOR SMALL SCREEN */
+.navigation-small{
+    display: none;;
+}
+@media (max-width: 700px) {
+    .menu{
+      display: none;
+    }
+    .grid-container {
+        grid-template-areas:
+          'myHeader myHeader myHeader myHeader myHeader myHeader'
+          'myMain myMain myMain myMain myMain myMain'
+          'myFooter myFooter myFooter myFooter myFooter myFooter';
+      }
+    .navigation-small{
+        display: block;
+        color: white;
+    }
+
+}
+/* footer */
+.footer{
+    color: white;
+}
+
+
+
+.mainToChange{
+    background-color: white;
+}
+
+
+
+
+
+  
