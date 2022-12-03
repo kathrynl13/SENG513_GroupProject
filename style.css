@@ -64,6 +64,7 @@ html {
     align-items: center;
         background-color: #F92545;
         margin:-10px;
+        padding:10px;
 }
 
 /* NAV FOR SMALL SCREEN */
@@ -104,7 +105,7 @@ html {
     background-color:#F92545;
     color: white;
     text-align: center;
-    font-family:"Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+    font-family:"Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif !important;
     border-width: 1em;
     border-style: solid;
     border-color: #F92545;
@@ -112,7 +113,7 @@ html {
 
 .mainToChange{
     background-color: white;
-   /*  border-style: solid; */
+    border-style: solid;
 }
 
 .line {
@@ -120,7 +121,7 @@ html {
     background-color: lightgrey;
     opacity: 1;
     width:100%;
-    margin:0 auto;
+    margin:0 auto; 
 }
 
 .santa {
@@ -183,9 +184,9 @@ html {
     align-items: center;
     margin:2%;
 }
-.section-title{
+.section-title {
     color: red;
-    font-weight: bolder
+    font-weight: bolder;
 }
 .wishlist-part-text input{
     display: none;
@@ -250,4 +251,73 @@ html {
 }
 /* END OF CSS FOR GROUP MEMBERS */
 
+.homepage {
+    background-color: #F92545;
+}
+
+#leftBlock {
+    background-color: white;
+}
+
+.home h1,h2,h3 {
+    font-family:"Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif !important;
+}
+
+#showcase {
+    margin: 2em 0px 20px 1em;
+}
+
+.inputs {
+    font-size:x-large;
+}
+
+.line2 {
+    border: 1px solid white;
+    background-color: white;
+    opacity: 1;
+    width:100%;
+    margin:0 auto; 
+}
+
+.santa2 {
+    width: 100%;
+}
+
+.afterLogin {
+    display:flex;
+    /* border-style:solid; */
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.afterLogin div {
+    display:flex;
+    flex-flow: column wrap;
+    align-items: center;
+    background-color: #F92545;
+    border-radius: 10px;
+    padding:2em;
+    margin: 20px;
+}
+
+.afterLogin h1,p {
+    color:white;
+    text-align: center;
+} 
+
+.afterLogin button {
+    background-color: green;
+    color: white;
+    border-color: green;
+    align-items: right;
+}
+
+#backButtonj{
+    background-color: green;
+    color: white;
+    border-color: green;
+    align-items: right;
+}
+/* end of CSS for home and create account page */
 
