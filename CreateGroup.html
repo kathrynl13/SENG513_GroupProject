@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secret Santa Swap</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styleFolu.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">   
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -71,30 +71,33 @@
             <div class="mainToChange">
                 <h1 id="bodyWrapper" style = "color: #F92545; font-size: 50px; margin: 10px;"><b>Create a group</b></h1>
                 <br>
-                <div  class = "flex-container" style = "display: flex; flex-wrap: wrap; flex-direction: row;">
-                    <div style ="font-size: 20px; margin-left: 100px;">
+                <div class="flex-container">
+                    <div style="font-size: 20px; justify-content: center; display: flex; border: 1px solid green">
+                    <div>
                     <form id="createForm" style ="margin: 10px; size: 20px;">
                         <label style="font-weight:lighter;">Group Name</label><br>
-                        <input type="text" id="name" name="name" style = "width: 300px; border-color: #F92545; font-weight: bold;"><br>
+                        <input type="text" id="name" name="name"><br>
                         <label style="font-weight:lighter;">Due Date</label><br>
-                        <input type="date" id="DueDate" name="DueDate" style = "width: 300px; border-color: #F92545; font-weight: bold;"><br>
+                        <input type="date" id="DueDate" name="DueDate"><br>
                         <label style="font-weight:lighter;">Price Limit</label><br>
-                        <input type="month" id="PriceLimit" name="PriceLimit" style = "width: 300px; border-color: #F92545; font-weight: bold;"><br>
+                        <input type="month" id="PriceLimit" name="PriceLimit"><br>
                     </form>
-                    <div >
-                        <a><button id ="updateButton" style = "background-color: rgb(251, 204, 98, 76%); margin: 10px; border-radius: 40%; width: 90px;">Create</button></a>
-                        <a><button id ="cancelButton" style = "background-color: rgb(251, 204, 98, 45%); margin: 10px; border-radius: 40%; width: 90px;">Cancel</button></a>
+                    <div>
+                        <a><button id ="updateButton">Create</button></a>
+                        <a><button id ="cancelButton">Cancel</button></a>
                     </div>
                     </div>
-                    <div style="text-align:center;">
+
+                    </div>
+                    <div class="customRules" style="text-align:center; border: 1px solid green">
                         <h1 style = "color: #F92545; font-size: 30px;"><b>Custom Rules:</b></h1><br>
-                        <form id="rules">
-                        <input type="text" id="rules" name="rules" style="border-radius: 25%; border-color: #F92545;">
-                        <label style = "color: #F92545;">Cannot buy gift for</label>
-                        <input type="text" id="rules" name="rules" style="border-radius: 25%; border-color: #F92545;">
+                        <form class="rules">
+                        <input type="text" id="rules" name="rules">
+                        <label class="ruleLabel" style = "color: #F92545;">Cannot buy gift for</label>
+                        <input type="text" id="rules" name="rules">
                         </form>
                         <br>
-                        <button id="addRuleButton" style="background-color: #3C8B49; color: white; text-align: left;">Add Another Rule</button>
+                        <button id="addRuleButton">Add Another Rule</button>
                         
                     </div>
                 </div>
