@@ -4,7 +4,7 @@ export const host = 'http://localhost:8800'
 const membersPath = host + '/members'
 export const find_all_members = membersPath + "'/messages/'"
 export const find_member_byID = membersPath + '/find-member/:id'
-export const find_member_byGroupId = membersPath + '/find-member/:groupId'
+export const find_member_bygroupIDs = membersPath + '/find-member/:groupIDs'
 export const create_member = membersPath + '/create_member'
 export const update_member = membersPath + '/update_member'
 

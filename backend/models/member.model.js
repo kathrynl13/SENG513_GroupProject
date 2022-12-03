@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 //  memberID:1,
-//     // groupID:1,
+//     // groupIDs:1,
 //     // firstName:"Anne",
 //     // lastName:"Jones",
 //     // age: 30,
@@ -19,8 +19,8 @@ const Schema = mongoose.Schema
 //     secretSanta:2   //ID number of the person
 const memberSchema = new Schema(
   {
-    groupId: {
-      type: String,
+    groupIDs: {
+      type: Array,
       required: true,
       unique: true,
     },

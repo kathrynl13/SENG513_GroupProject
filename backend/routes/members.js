@@ -13,8 +13,8 @@ router.route('/find-member/:id').get((req, res) => {
     .then((member) => res.json(member))
     .catch((err) => res.status(400).json('Error: ' + err))
 })
-// Get Member by groupId
-router.route('/find-member/:groupId').get(function (req, res) {
+// Get Member by groupIDs
+router.route('/find-member/:groupIDs').get(function (req, res) {
   // console.log('find-member get req.body:', req.body)
   // console.log('find-member get req.params:', req.params)
   const joinCode = req.params.joinCode

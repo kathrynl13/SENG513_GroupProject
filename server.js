@@ -19,7 +19,7 @@ io = socketIO(server)
 
 //defining storage objects
 var group = {
-  groupID: 1,
+  groupIDs: 1,
   groupName: 'Santa Superstars',
   dueDate: 'Decemeber 24, 2022',
   joinCode: 1234,
@@ -29,7 +29,7 @@ var group = {
 }
 var member1 = {
   memberID: 1,
-  groupID: 1,
+  groupIDs: 1,
   firstName: 'Anne',
   lastName: 'Jones',
   age: 30,
@@ -47,7 +47,7 @@ var member1 = {
 }
 var member2 = {
   memberID: 2,
-  groupID: 1,
+  groupIDs: 1,
   firstName: 'Jake',
   lastName: 'Woods',
   age: 22,
@@ -105,7 +105,7 @@ function getMemberObject(memberID) {
 }
 function updateMemberInfromation(message) {
   member1.memberID = message.memberID
-  member1.groupID = message.groupID
+  member1.groupIDs = message.groupIDs
   member1.firstName = message.firstName
   member1.lastName = message.lastName
   member1.age = message.age

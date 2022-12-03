@@ -1,5 +1,5 @@
 // var group = {
-//   groupID: 1,
+//   groupIDs: 1,
 //   groupName: 'Santa Superstars',
 //   dueDate: 'Decemeber 24, 2022',
 //   joinCode: 1234,
