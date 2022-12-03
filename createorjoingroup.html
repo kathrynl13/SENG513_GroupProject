@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Santa Swap</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- for icons: https://getbootstrap.com/docs/3.3/components/ -->
+</head>
+<body class="creatOrJoin">
+    <div id="bodyWrapper">
+        <div class="header">
+            <img class="santa" src="https://starpng.com/public/uploads/preview/santa-illustration-png-11574273120u9d5h2xqlc.png">
+            <h2><strong>Secret Santa</strong> Swap</h2>
+            <img class="santa" src="https://starpng.com/public/uploads/preview/santa-illustration-png-11574273120u9d5h2xqlc.png">
+        </div>
+        <br>
+        &nbsp;&nbsp;&nbsp;<button id="backButtonj">← Home</button>
+        <div class="afterLogin">
+            <div>
+                <h1><b>Create</b> a new Secret Santa group: </h1>
+                <input type="text" id="createGroupInp" size="35" placeholder="Enter your group's name">
+                <br>
+                <button id="createGroupBtn">❄ Create group ❄</button>
+            </div>
+            <div>
+                <h1><b>Join</b> an existing Secret Santa group: </h1>
+                <input type="text" id="joinGroupInp" size="35" placeholder="Enter an access code">
+                <br>
+                <button id="joinGroupBtn">❄ Join group ❄</button>
+            </div>
+        </div>
+        <br><br><br>
+    </div>
+
+    <div class="footer">
+        <p>Secret Santa Swap 2022 | SENG 513 Group 17</p>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="createorjoinScript.js"></script>
+</body>
+</html>
