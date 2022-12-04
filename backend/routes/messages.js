@@ -12,7 +12,7 @@ router.route('/').get((req, res) => {
 // Get messages by toMemberId
 router.route('/find_toMemberId_message/:toMemberId').get((req, res) => {
   const toMemberId = req.params.toMemberId
-  Message.findMany(
+  Message.findOne(
     {
       toMemberId,
     },
@@ -32,7 +32,7 @@ router
     // console.log('find-message get req.body:', req.body)
     // console.log('find-message get req.params:', req.params)
     const fromMemberId = req.params.fromMemberId
-    Message.findMany(
+    Message.findOne(
       {
         fromMemberId,
       },

@@ -22,28 +22,33 @@ const memberSchema = new Schema(
     firstName: {
       type: String,
       required: true,
+      unique: false,
     },
     lastName: {
       type: String,
       required: true,
+      unique: false,
     },
     username: {
       type: String,
       required: true,
-      unique: true,
+      unique: false,
     },
     birthDate: { type: Date, required: true },
     email: {
       type: String,
       required: true,
+      unique: false,
     },
     occupation: {
       type: String,
       required: true,
+      unique: false,
     },
     password: {
       type: String,
       required: true,
+      unique: false,
     },
 
     buysFor: {

@@ -28,9 +28,9 @@ const messagesPath = host + '/messages'
 define('find_all_messages', host + "'/'")
 define('find_toMemberId_message', messagesPath +
   '/find_toMemberId_message/:toMemberId')
-define('find_fromMemberId_message ', messagesPath +
+define('find_fromMemberId_message', messagesPath +
   '/find_fromMemberId_message/:fromMemberId')
-define('create_message ', messagesPath + '/create_message/:fromMemberId')
+define('create_message', messagesPath + '/create_message/:fromMemberId')
 
 /*                   -----  Front-End Use Example  -----
 import axios from 'axios'       // or const axios = require('axios') in server.js
@@ -38,7 +38,8 @@ import {
   find_all_messages,
   find_toMemberId_message,
   create_message,
-} from './API.routes'          // Import the needed APIs
+} from './API.routes'          // or const APIs = require('./APIs.routes.js') in server.js
+
 
 // Call  APIs
 axios
