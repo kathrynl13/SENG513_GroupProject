@@ -19,11 +19,6 @@ const Schema = mongoose.Schema
 //     secretSanta:2   //ID number of the person
 const memberSchema = new Schema(
   {
-    groupIDs: {
-      type: Array,
-      required: true,
-      unique: true,
-    },
     firstName: {
       type: String,
       required: true,
@@ -52,12 +47,12 @@ const memberSchema = new Schema(
     },
 
     buysFor: {
-      type: Number,
+      type: String,
       required: true,
       unique: false,
     },
     mySanta: {
-      type: Number,
+      type: String,
       required: true,
       unique: false,
     },

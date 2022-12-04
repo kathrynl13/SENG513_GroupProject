@@ -1,4 +1,6 @@
 const { Socket } = require('engine.io')
+const axios = require('axios')
+const APIs = require('./APIs.routes.js')
 
 //setting up the connection
 var express = require('express'),
@@ -97,11 +99,21 @@ io.on('connection', function (socket) {
 
 //search in database for member
 function getMemberObject(memberID) {
-  if (memberID == 1) {
-    return member1
-  } else {
-    return member2
-  }
+  var member = null
+
+  axios
+    .get(find_toMemberId_message + memberID)
+    .then((res) => {
+      console.log(' Member data is: ' + res.data)
+      member = res.data
+    })
+    .catch((res) => console.log(" Couldn't find game" + res.data))
+  return member
+  // if (memberID == 1) {
+  //   return member1
+  // } else {
+  //   return member2
+  // }
 }
 function updateMemberInfromation(message) {
   member1.memberID = message.memberID

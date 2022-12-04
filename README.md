@@ -4,7 +4,7 @@ SENG 513 Group 17
 
 # NPM Required Installations
 
-npm install dotenv mongoose
+npm install dotenv mongoose axios
 
 # Starting Mongo Database Server
 

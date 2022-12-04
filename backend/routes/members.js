@@ -33,36 +33,46 @@ router.route('/find-member/:groupIDs').get(function (req, res) {
 //                           *** Post Requests ***
 // Create Member
 router.route('/create_member').post((req, res) => {
-  const memberName = req.body.memberName
-  const joinCode = req.body.joinCode
-  const createdBy = req.body.createdBy
-  const groupMembers = req.body.groupMembers
-  const priceLimit = Number(req.body.priceLimit)
-  const dueDate = Date.parse(req.body.date)
-  const newGame = new Member({
-    memberName,
-    joinCode,
-    createdBy,
-    groupMembers,
-    priceLimit,
-    dueDate,
+  const firstName = req.body.firstName
+  const lastName = req.body.lastName
+  const username = req.body.username
+  const birthDate = Date.parse(req.body.date)
+  const email = req.body.email
+  const occupation = req.body.occupation
+  const password = req.body.password
+  const buysFor = req.body.buysFor
+  const mySanta = req.body.mySanta
+  const wishDetails = []
+
+  const newMember = new Member({
+    firstName,
+    lastName,
+    username,
+    birthDate,
+    email,
+    occupation,
+    password,
+    buysFor,
+    mySanta,
+    wishDetails,
   })
-  newGame
+  newMember
     .save()
     .then(() => res.json('Member added!'))
     .catch((err) => res.status(400).json('Error: ' + err))
 })
-// Update Member Members
-router.route('/update_members/:id').post((req, res) => {
-  console.log('update_members req.body:', req.body)
+
+// Update Wishlist
+router.route('/update_wishlist/:id').post((req, res) => {
+  console.log('update_wishlist req.body:', req.body)
   console.log('req.params:', req.params)
-  let game_id = req.params.id
-  console.log('game_id:', game_id)
+  let member_id = req.params.id
+  console.log('member_id:', member_id)
   Member.findByIdAndUpdate(
-    game_id,
+    member_id,
     {
       $push: {
-        groupMembers: req.body,
+        wishDetails: req.body,
       },
     },
     {
@@ -70,21 +80,46 @@ router.route('/update_members/:id').post((req, res) => {
     },
     function (err, data) {
       if (err) {
-        res.json('Member not found :(').end()
+        res.json('wishDetails not found :(').end()
       } else {
         return res.json(data)
       }
     },
   )
 })
+
+// Update member by given ID
+router.route('/update_member/:id').post((req, res) => {
+  Member.findById(req.body.id)
+    .then((member) => {
+      const firstName = req.body.firstName
+      const lastName = req.body.lastName
+      const username = req.body.username
+      const birthDate = Date.parse(req.body.date)
+      const email = req.body.email
+      const occupation = req.body.occupation
+      const password = req.body.password
+      const buysFor = req.body.buysFor
+      const mySanta = req.body.mySanta
+      const wishDetails = req.body.wishDetails
+      member
+        .save()
+        .then(() => res.json('Member updated!'))
+        .catch((err) => res.status(400).json('Error: ' + err))
+    })
+    .catch((err) => res.status(400).json('Error: ' + err))
+})
+
+//                           *** routes below may not be needed ***
+
 // Update Member Name by given ID
 router.route('/update_name/:id').post((req, res) => {
   console.log('update_name req.body:', req.body)
   console.log('req.params:', req.params)
-  let game_id = req.params.id
-  console.log('game_id:', game_id)
+  let member_id = req.params.id
+  console.log('member_id:', member_id)
   Member.findByIdAndUpdate(
-    game_id,
+    member_id,
     {
       $push: {
         name: req.body,
@@ -106,54 +141,6 @@ router.route('/update_name/:id').post((req, res) => {
 router.route('/:id').delete((req, res) => {
   Member.findByIdAndDelete(req.body.id)
     .then(() => res.json('Member deleted.'))
-    .catch((err) => res.status(400).json('Error: ' + err))
-})
-// Update member members by given ID
-router.route('/update_members/:id').post((req, res) => {
-  console.log('update_members req.body:', req.body)
-  console.log('req.params:', req.params)
-  let game_id = req.params.id
-  console.log('game_id:', game_id)
-  Member.findByIdAndUpdate(
-    game_id,
-    {
-      $push: {
-        groupMembers: req.body,
-      },
-    },
-    {
-      new: true,
-    },
-    function (err, data) {
-      if (err) {
-        res.json('Member not found :(').end()
-      } else {
-        return res.json(data)
-      }
-    },
-  )
-})
-// Update member by given ID
-router.route('/update_member/:id').post((req, res) => {
-  Member.findById(req.body.id)
-    .then((member) => {
-      const memberName = req.body.memberName
-      const joinCode = req.body.joinCode
-      const createdBy = req.body.createdBy
-      const groupMembers = req.body.groupMembers
-      const priceLimit = Number(req.body.priceLimit)
-      const dueDate = Date.parse(req.body.date)
-      member.memberName = req.body.memberName
-      member.joinCode = req.body.joinCode
-      member.createdBy = req.body.createdBy
-      member.groupMembers = req.body.groupMembers
-      member.priceLimit = Number(req.body.priceLimit)
-      member.dueDate = Date.parse(req.body.date)
-      member
-        .save()
-        .then(() => res.json('Member updated!'))
-        .catch((err) => res.status(400).json('Error: ' + err))
-    })
     .catch((err) => res.status(400).json('Error: ' + err))
 })
 module.exports = router
