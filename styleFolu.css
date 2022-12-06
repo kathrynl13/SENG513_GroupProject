@@ -60,7 +60,7 @@ html {
 .header{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
         background-color: #F92545;
         margin:-10px;
@@ -74,6 +74,7 @@ html {
 @media (max-width: 700px) {
     .menu{
       display: none;
+      width: 0px;
     }
     .grid-container {
         grid-template-areas:
@@ -94,7 +95,6 @@ html {
         grid-template-columns: auto auto auto;
     }
 
-
 }
 /* footer */
 .footer {
@@ -113,7 +113,7 @@ html {
 
 .mainToChange{
     background-color: white;
-    /* border-style: solid; */
+    border-style: none;
 }
 
 .line {
@@ -319,48 +319,9 @@ html {
     border-color: green;
     align-items: right;
 }
-
-/* for template */
-
-.logout {
-    text-align:right;
-}
-
-.crest {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-}
-
-.logout button {
-    background-color: green;
-    color: white;
-    border-color: green;
-    align-items: right;
-}
-
 /* end of CSS for home and create account page */
 
-.inputFields p {
-    color:black;
-    text-align: left;
-}
-
-.inputFields h3 {
-    margin-top: 0px;
-    margin-bottom: 1em;
-}
-
-.editButton button {
-    background-color: green;
-    color: white;
-    border-color: green;
-    text-align: center;
-}
-
-
+/* Bowo */
 .flex-container {
     display: flex;
     flex-wrap: wrap;
@@ -425,8 +386,6 @@ html {
 
 .createGroup {
     font-family:"Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
-
 }
 
-
-
+/* End of Bowo */

@@ -11,8 +11,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- for icons: https://getbootstrap.com/docs/3.3/components/ -->
 </head>
-<body>
-    <div id="bodyWrapper">
+
+<body class="createGroup">
+    <div>
         <div class="grid-container">
             <div class="header">
                 <div class="crest">
@@ -24,7 +25,8 @@
                 <div class="logout">
                     <button onclick="window.location.href='index.html';">logout</button><br><br>
                 </div>
-                <!-- MENU FOR SMALL SCREEN -->
+
+               <!-- MENU FOR SMALL SCREEN -->
                 <!-- NAVAGATION BAR-->
                 <div class="navigation-small">
                     <nav class="navbar navbar-dark navbar-1 white"> 
@@ -60,6 +62,7 @@
                </div>
 
             </div>
+
             <div class="menu">
                 <!-- MENU FOR LARGE SCREEN -->
                 
@@ -78,80 +81,47 @@
            
 
            <!--  DEVELOPMENT AREA FOR EACH PAGE  -->
-            <div class="mainToChange">
-                <h3 class="section-title">My Wishlist</h3>
-                <p>Dear Secret Santa here are some hints...</p>
-                <div class="wishlist-components">
-
-                    <div class="wishlist-part">
-                        <div class="imgIconWishlist">
-                            <img src="./assets/santa-claus.png" alt="">
-                        </div>
-                        <div class="wishlist-part-text">
-                            <p>WHAT I REALLY WANT</p>
-                            <h4 id="wishlist-want">EX: HOTWHEELS</h4>
-                            <input class="wishlist-input" id="wishlist-want-input" type="text">
-                        </div>
-                    </div>
-                    <div class="wishlist-part">
-                        <div class="imgIconWishlist">
-                            <img src="./assets/giftbox.png" alt="">
-                        </div>
-                        <div class="wishlist-part-text">
-                            <p>SOMETHING I NEED</p>
-                            <h4 id="wishlist-need">EX: FRYING PAN</h4>
-                            <input class="wishlist-input" id="wishlist-need-input" type="text">
-                        </div>
-                    </div>
-                    <div class="wishlist-part">
-                        <div class="imgIconWishlist">
-                            <img src="./assets/jersey.png" alt="">
-                        </div>
-                        <div class="wishlist-part-text">
-                            <p>SOMETHING TO WEAR</p>
-                            <h4 id="wishlist-wear">EX: SWEATER</h4>
-                            <input class="wishlist-input" id="wishlist-wear-input" type="text">
-                        </div>
-                    </div>
-                    <div class="wishlist-part">
-                        <div class="imgIconWishlist">
-                            <img src="./assets/skiing.png" alt="">
-                        </div>
-                        <div class="wishlist-part-text">
-                            <p>SOMETHING TO DO</p>
-                            <h4 id="wishlist-do">EX: MONOPLOY</h4>
-                            <input class="wishlist-input" id="wishlist-do-input" type="text">
-                        </div>
-                    </div>
-                    <div class="wishlist-part">
-                        <div class="imgIconWishlist">
-                            <img src="./assets/gingerbread-man.png" alt="">
-                        </div>
-                        <div class="wishlist-part-text">
-                            <p>SOMETHING TO EAT</p>
-                            <h4 id="wishlist-eat">EX: CANDY CANE</h4>
-                            <input class="wishlist-input" id="wishlist-eat-input" type="text">
-                        </div>
-                    </div>
-                    <div class="wishlist-part">
-                        <div class="imgIconWishlist">
-                            <img src="./assets/christmas-sock.png" alt="">
-                        </div>
-                        <div class="wishlist-part-text">
-                            <p>SOMETHING TO LEARN</p>
-                            <h4 id="wishlist-learn">EX: STOCKS</h4>
-                            <input class="wishlist-input" id="wishlist-learn-input" type="text">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wishlist-edit-wrapper">
-                    <button id="edit-wishlist-button">EDIT WISHLIST</button>
-                    <button id="submit-wishlist-button">UPDATE WISHLIST</button>
-                </div>
+            <div class="createGroup">
+                <h1 id="bodyWrapper" style = "color: #F92545; font-size: 50px; margin: 10px;"><b>Create a group</b></h1>
                 <br>
+                <div class="flex-container">
+                    <div style="font-size: 20px; justify-content: center; display: flex;">
+                    <div>
+                    <form id="createForm" style ="margin: 10px; size: 20px;">
+                        <label style="font-weight:lighter;">Group Name</label><br>
+                        <input type="text" id="Name" name="Name"><br>
+                        <label style="font-weight:lighter;">Due Date</label><br>
+                        <input type="date" id="DueDate" name="DueDate"><br>
+                        <label style="font-weight:lighter;">Price Limit</label><br>
+                        <input type="number" id="PriceLimit" name="PriceLimit"><br>
+                    </form>
 
-            </div>  
+                    <a><button id ="updateButton">Create</button></a>
+                    <a><button id ="cancelButton">Cancel</button></a>
+
+                    <div>
+                        <!-- <a><button id ="updateButton">Create</button></a>
+                        <a><button id ="cancelButton">Cancel</button></a> -->
+                    </div>
+                    </div>
+
+                    </div>
+                    <div class="customRules" style="text-align:center;">
+                        <h1 style = "color: #F92545; font-size: 30px;"><b>Custom Rules:</b></h1><br>
+                        <form class="rules">
+                        <input type="text" id="rulePerson1" name="rules">
+                        <label class="ruleLabel" style = "color: #F92545;">Cannot buy gift for</label>
+                        <input type="text" id="rulePerson2" name="rules"><br>
+
+                        <br>
+
+                        <button id="addRuleButton">Add Another Rule</button>
+                        </form>
+                        
+                        
+                        
+                    </div>
+                </div>
             </div>  
         </div>
     </div>
@@ -163,6 +133,6 @@
 <!-- script for nav bar -->
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
-<script src="wishlistScript.js"></script>
+<script src="CreateGroup.js"></script>
 </body>
 </html>
