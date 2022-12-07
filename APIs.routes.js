@@ -19,10 +19,10 @@ define('update_wishlist', membersPath + '/update_wishlist/:id')
 
 //                          *** Groups Routes ***
 const groupsPath = host + '/groups'
-define('find_all_groups ', groupsPath + "'/'")
-define('find_group_byID ', groupsPath + '/find-group/:id')
-define('find_group_byJoinCode ', groupsPath + '/find-group/:joinCode')
-define('create_group ', groupsPath + '/create_group')
+define('find_all_groups', groupsPath + "'/'")
+define('find_group_byID', groupsPath + '/find-group/:id')
+define('find_group_byJoinCode', groupsPath + '/find_group_byJoinCode/') // make sure the anmea re right and teh slashes are right
+define('create_group', groupsPath + '/create_group')
 define('update_group_byId', groupsPath + '/update_group/:id')
 
 //                          *** Messages Routes ***

@@ -22,10 +22,13 @@ joinGroupBtn.addEventListener('click', function() {
 
     // emit code to the server
     socket.emit("groupJoined", joinGroupInp.value);
-
-    //GOTO PAGE
 })
 
 socket.on("joinfail", ()=> {
     alert("Failed to join group. Please try again.");
+})
+
+socket.on("redirecttosantagroups", (groupname)=> {
+    alert("You have succcessfully joined the group: "+groupname);
+    window.location.href="santagroups.html";
 })

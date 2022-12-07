@@ -19,7 +19,6 @@ function updateClicked(e){
 
     socket.emit("GroupInfoInputted", Name.value, PriceLimit.value, DueDate.value);
     console.log(Name + " " + PriceLimit + " " + DueDate);
-    window.location.href="SantaGroups.html";
 }
 
 function cancelClicked(e){
@@ -36,3 +35,9 @@ function addRuleClicked(e){
     socket.emit(rulePerson2.value);
     console.log(rulePerson1 + " " + rulePerson2);
 }
+
+socket.on("groupCreated", (code) => {
+    console.log("creatGROup.js code", code);
+    alert("Your group has been successfully created. Your join code is: "+code);
+    window.location.href="SantaGroups.html";
+})

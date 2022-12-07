@@ -94,42 +94,34 @@ io.on('connection', function (socket){
     // user clicks login button
     socket.on('login', (username, password) => {
 
+        // logs to the server
         console.log("this is user-", username,"-");
         console.log("length",username.length);
         console.log("api is", APIs.find_member_byUsername + username);
 
+        // check if username exists in database
         axios
         .get(APIs.find_member_byUsername+username)
         .then((res) => {
-            console.log(" User found!" + res.data )
-            // set the loginexists as true
+            console.log(" User found!", res.data )
+
+            // check if password matches
+            if(password == res.data.password) {
+                console.log("password match");
+                // redirect to create or join page:
+                socket.emit('firsttimeredirect');
+
+            } else socket.emit('loginfail');
+
         }) 
         .catch((res) => console.log(" Couldn't find user"+ res.data))
 
-
-
-        var loginExists = false;
-        // search for database if login exists
-        // ...
-
-
-        if(loginExists==true) {
-            // check if this is the first time user is logging in. if so bring to createorjoinpage
-            let firstTime = true; 
-            if(firstTime) {
-                socket.emit('firsttimeredirect');
-            } else socket.emit('redirect');
-            // else bring to main user page
-            
-        } else socket.emit('loginfail');
     })
 
     // user makes a new account. newUser object.
     socket.on('newAccount', (newUser) => {
-        console.log(newUser.fname);
+        // console.log(newUser.fname);
         // add user to the database
-
-        
         const firstName = newUser.fname;
         const lastName = newUser.lname;
         const username = newUser.username;
@@ -142,9 +134,8 @@ io.on('connection', function (socket){
             email,
             password,
         }
-
-        console.log(newMember);
-
+       
+        // post new member to database
         axios
         .post(APIs.create_member, newMember)
         .then((res) => {
@@ -152,38 +143,74 @@ io.on('connection', function (socket){
         })
         .catch((res) => console.log(res.data + " Couldn't create Member"))
 
-
-
-    //     // user object
-    // const newUser = {
-    //     fname: fname.value,
-    //     lname: lname.value,
-    //     email: email.value,
-    //     user: newusername.value,
-    //     pass: newpassword.value
-    // };
-    // socket.emit("newAccount", newUser);
-
     })
 
-    // user creates a new santa group
-    socket.on("newGroupCreated", (name) => {
-        console.log(name);
-        // generate access code for the database
-        let accesscode = createID();
-        // add group to the database
-    })
+    // // user creates a new santa group
+    // socket.on("newGroupCreated", (name) => {
+    //     console.log(name);
+    //     // generate access code for the database
+    //     let accesscode = createID();
+    //     // add group to the database
+    // })
 
     // user joins an existing santa group
     socket.on("groupJoined", (code) => {
         console.log(code);
         // check if the group exists
-        var groupExists = false;
-        if(groupExists==true) {
-            // add user to the group
-            // bring user to the main page of the group
-        } else socket.emit("joinfail");
+        // get request on join code 
+        axios
+        .get(APIs.find_group_byJoinCode+code)
+        .then((res) => {
+            console.log("group found!", res.data)
+            if(res.data._id != null)  { //group not exists
+                console.log("groupID: ", res.data._id); // gotta store this somewhere?
+                socket.emit("redirecttosantagroups", res.data.groupName);
+            } else socket.emit("joinfail");
+        }) 
+        .catch(function (error) {
+            console.log("Error,",error);
+            socket.emit("joinfail");
+        })
     })
+
+
+    // emits from createGroup.js
+
+    socket.on("GroupInfoInputted", (name, limit, date) => {
+
+        const groupName = name;
+        const joinCode= createID();
+        const createdBy= "";
+        const groupMembers= "";
+        const priceLimit= limit;
+        const dueDate= date;
+
+        const newGroup={
+            groupName,
+            joinCode,
+            createdBy,
+            groupMembers,
+            priceLimit,
+            dueDate
+        }
+
+        // crate a group in the database
+        axios
+        .post(APIs.create_group, newGroup)
+        .then((res) => {
+         console.log(" GROUP created !" );
+         console.log("CODE:", joinCode); 
+         socket.emit("groupCreated", joinCode); // in creatGroup
+         
+        })
+        .catch(function (error) {
+            console.log("Error,",error);
+        })
+        //.catch((res) => console.log(res.data + " Couldn't create GROUP"))
+
+    })
+
+
 
     //get member data 
     socket.on('member-information-request', function (message){
