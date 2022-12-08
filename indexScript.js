@@ -16,11 +16,66 @@ about.addEventListener('click', function() {
     //from https://www.elfster.com/content/secret-santa-rules/#:~:text=Members%20of%20a%20group%20of,group%20was%20their%20Secret%20Santa.
 })
 
-// when user clicks  lgn, send user and pass to server
+// when user clicks lgn, send user and pass to server
 login.addEventListener('click', function() {
+
+    if(userInput.value==""|passInput.value=="") {
+        alert("Please enter a valid username and password.");
+        return;
+    }
+    
     socket.emit("login", userInput.value, passInput.value);
 
-    // find some way to check if this is the first time logging in???
+    // getting the users group id from the server/database
+    // let groupID = 1;
+    // let memberID = 1;
+
+    // create a cookie with the user id and group id that user belongs to
+    setCookie("groupid", 25);
+    setCookie("memberid", 24);
+
+    console.log(getCookie("user"));
 })
 
 
+socket.on('redirect', ()=> {
+    window.location.href = "wishlist.html";
+})
+
+socket.on('firsttimeredirect', ()=> {
+    window.location.href = "createorjoingroup.html";
+})
+
+socket.on('loginfail', ()=> {
+    alert("Login failed. Please try again.");
+})
+
+// cookies implementation
+
+// sets a cookie with name and value
+function setCookie(cname, cvalue) {
+    document.cookie = cname+"="+cvalue+";"; // ex line=[hl1,hl2];
+}
+
+// gets the value of the cookie from parameter name
+// referenced from https://www.w3schools.com/js/js_cookies.asp 
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie); // decode the cookie string
+    let ca = decodedCookie.split(';'); // return list of string separated by ;
+    for (let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length); // if cookie name is found, return it
+        }
+    }
+    return "";
+}
+
+// check cookie runs on load to see if a cookie was stored, and restores the gamestate
+function checkCookie() {
+    let user = getCookie("user");
+}

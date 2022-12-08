@@ -1,3 +1,37 @@
+//****CHANGE MEMBERID TO COOKIE VALUE LATER  */
+//let memberID = '638c197e721063581cdf7071' 
+//let memberID = '638c1a592d3871b07663e547'
+let memberID = '638f89b3acbf9714f0b26c70'
+//****CHANGE MEMBERID TO COOKIE VALUE LATER  */
+
+const wishDetails = {
+    wish_want:"unknown",
+    wish_need:"unknown",
+    wish_eat:"unknown",
+    wish_do:"unknown",
+    wish_wear:"unknown",
+    wish_learn:"unknown",
+   }
+
+const socket = io('http://localhost:5000')
+
+socket.emit('member-information-request', memberID)
+
+socket.on('member-information-reply', member =>{
+        document.getElementById('wishlist-want').innerHTML = member.wishDetails.wish_want  
+        document.getElementById('wishlist-need').innerHTML = member.wishDetails.wish_need
+        document.getElementById('wishlist-wear').innerHTML = member.wishDetails.wish_wear
+        document.getElementById('wishlist-do').innerHTML = member.wishDetails.wish_do
+        document.getElementById('wishlist-eat').innerHTML = member.wishDetails.wish_eat
+        document.getElementById('wishlist-learn').innerHTML = member.wishDetails.wish_learn
+        wishDetails.wish_want = member.wishDetails.wish_want
+        wishDetails.wish_need = member.wishDetails.wish_need
+        wishDetails.wish_eat = member.wishDetails.wish_eat
+        wishDetails.wish_do = member.wishDetails.wish_do
+        wishDetails.wish_wear = member.wishDetails.wish_wear
+        wishDetails.wish_learn = member.wishDetails.wish_learn
+})
+
 document.getElementById('edit-wishlist-button').addEventListener('click', function(){
     document.getElementById('wishlist-want-input').style.display = "block"
     document.getElementById('wishlist-need-input').style.display = "block"
@@ -34,25 +68,33 @@ document.getElementById('submit-wishlist-button').addEventListener('click', func
     let want = document.getElementById('wishlist-want-input').value
     if(want !== ""){
         document.getElementById('wishlist-want').innerHTML = want
+        wishDetails.wish_want = want
     }
     let need = document.getElementById('wishlist-need-input').value
     if(need !== ""){
         document.getElementById('wishlist-need').innerHTML = need
+        wishDetails.wish_need = need
     }
     let wear = document.getElementById('wishlist-wear-input').value
     if(wear !== ""){
         document.getElementById('wishlist-wear').innerHTML = wear
+        wishDetails.wish_wear = wear
     }
     let todo = document.getElementById('wishlist-do-input').value
     if(todo !== ""){
         document.getElementById('wishlist-do').innerHTML = todo
+        wishDetails.wish_do = todo
     }
     let eat = document.getElementById('wishlist-eat-input').value
     if(eat !== ""){
         document.getElementById('wishlist-eat').innerHTML = eat
+        wishDetails.wish_eat = eat
     }
     let learn = document.getElementById('wishlist-learn-input').value
     if(learn !== ""){
         document.getElementById('wishlist-learn').innerHTML = learn
+        wishDetails.wish_learn = learn
     }
+
+    socket.emit('member-wishlist-update', {wish:wishDetails, id:memberID})
 })
