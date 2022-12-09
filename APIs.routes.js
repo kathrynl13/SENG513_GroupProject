@@ -10,8 +10,7 @@ const host = 'http://localhost:8800'
 const membersPath = host + '/members'
 define('find_all_members', membersPath + '/messages/')
 define('find_member_byID', membersPath + '/find-member/:id')
-define('find_member_byUsername', membersPath +
-  '/find_member_byUsername/')
+define('find_member_byUsername', membersPath + '/find_member_byUsername/')
 define('find_member_bygroupIDs', membersPath + '/find-member/:groupIDs')
 define('create_member', membersPath + '/create_member')
 define('update_member', membersPath + '/update_member')
@@ -24,6 +23,7 @@ define('find_group_byID', groupsPath + '/find-group/:id')
 define('find_group_byJoinCode', groupsPath + '/find_group_byJoinCode/') // make sure the anmea re right and teh slashes are right
 define('create_group', groupsPath + '/create_group')
 define('update_group_byId', groupsPath + '/update_group/:id')
+define('update_groupRules', groupsPath + '/update_groupRules/:id')
 
 //                          *** Messages Routes ***
 const messagesPath = host + '/messages'

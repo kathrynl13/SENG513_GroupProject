@@ -23,19 +23,24 @@ const groupSchema = new Schema(
     },
     createdBy: {
       type: String,
-      required: true,
+      required: false,
     },
     groupMembers: {
       type: Array,
-      required: true,
+      required: false,
+    },
+    groupRules: {
+      type: Object,
+      required: false,
+      unique: false,
     },
     priceLimit: {
       type: Number,
-      required: true,
+      required: false,
     },
     dueDate: {
-      type: Date,
-      required: true,
+      type: String,
+      required: false,
     },
   },
   {

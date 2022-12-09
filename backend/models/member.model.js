@@ -34,7 +34,12 @@ const memberSchema = new Schema(
       required: true,
       unique: true,
     },
-    birthDate: { type: Date, required: false },
+    myGroups: {
+      type: Array,
+      required: false,
+      unique: false,
+    },
+    birthDate: { type: String, required: false },
     email: {
       type: String,
       required: true,
@@ -52,12 +57,12 @@ const memberSchema = new Schema(
     },
 
     buysFor: {
-      type: String,
+      type: Array,
       required: false,
       unique: false,
     },
     mySanta: {
-      type: String,
+      type: Array,
       required: false,
       unique: false,
     },

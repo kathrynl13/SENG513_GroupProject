@@ -8,15 +8,22 @@ router.route('/').get((req, res) => {
     .catch((err) => res.status(400).json('Error: ' + err))
 })
 // Get group by id
-router.route('find-group/:id').get((req, res) => {
-  Group.findById(req.body.id)
-    .then((group) => res.json(group))
-    .catch((err) => res.status(400).json('Error: ' + err))
+router.route('/find-group/:id').get(function (req, res) {
+  console.log('find group by id: ' + req.params.id)
+  Group.findById(req.params.id, function (err, data) {
+    if (err) {
+      console.log(err)
+    } else {
+      res.json(data)
+      console.log(data)
+    }
+  })
 })
+
 // Get Group by joinCode
-router.route('/find-group/:joinCode').get(function (req, res) {
-  // console.log('find-group get req.body:', req.body)
-  // console.log('find-group get req.params:', req.params)
+router.route('/find_group_byJoinCode/:joinCode').get(function (req, res) {
+  console.log('find-group get req.body:', req.body)
+  console.log('find-group get req.params:', req.params)
   const joinCode = req.params.joinCode
   Group.findOne(
     {
@@ -33,12 +40,14 @@ router.route('/find-group/:joinCode').get(function (req, res) {
 //                           *** Post Requests ***
 // Create Group
 router.route('/create_group').post((req, res) => {
+  console.log('params', req.params, 'body: ', req.body)
   const groupName = req.body.groupName
   const joinCode = req.body.joinCode
   const createdBy = req.body.createdBy
   const groupMembers = req.body.groupMembers
   const priceLimit = Number(req.body.priceLimit)
-  const dueDate = Date.parse(req.body.date)
+  const dueDate = req.body.date //Date.parse(req.body.date)
+
   const newGame = new Group({
     groupName,
     joinCode,
@@ -47,6 +56,9 @@ router.route('/create_group').post((req, res) => {
     priceLimit,
     dueDate,
   })
+
+  console.log('making new group', newGame)
+
   newGame
     .save()
     .then(() => res.json('Group added!'))
@@ -57,24 +69,42 @@ router.route('/create_group').post((req, res) => {
 router.route('/update_group/:id').post((req, res) => {
   Group.findById(req.body.id)
     .then((group) => {
-      const groupName = req.body.groupName
-      const joinCode = req.body.joinCode
-      const createdBy = req.body.createdBy
-      const groupMembers = req.body.groupMembers
-      const priceLimit = Number(req.body.priceLimit)
-      const dueDate = Date.parse(req.body.date)
+      // const groupName = req.body.groupName
+      // const joinCode = req.body.joinCode
+      // const createdBy = req.body.createdBy
+      // const groupMembers = req.body.groupMembers
+      // const priceLimit = Number(req.body.priceLimit)
+      // const dueDate = Date.parse(req.body.date)
       group.groupName = req.body.groupName
       group.joinCode = req.body.joinCode
       group.createdBy = req.body.createdBy
       group.groupMembers = req.body.groupMembers
+      group.groupRules = req.body.groupRules
       group.priceLimit = Number(req.body.priceLimit)
-      group.dueDate = Date.parse(req.body.date)
+      group.dueDate = req.body.date
       group
         .save()
         .then(() => res.json('Group updated!'))
         .catch((err) => res.status(400).json('Error: ' + err))
     })
     .catch((err) => res.status(400).json('Error: ' + err))
+})
+// Update groupRules
+router.route('/update_groupRules/:id').post((req, res) => {
+  console.log('update_groupRules req.body:', req.body)
+  console.log('req.params:', req.params)
+  let group_id = req.params.id
+  console.log('group_id:', group_id)
+  Group.findByIdAndUpdate(group_id, { groupRules: req.body }, function (
+    err,
+    data,
+  ) {
+    if (err) {
+      res.json('Could not update groupRules:(').end()
+    } else {
+      return res.json(data)
+    }
+  })
 })
 
 // Update Group Members
