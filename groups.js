@@ -8,11 +8,18 @@ router.route('/').get((req, res) => {
     .catch((err) => res.status(400).json('Error: ' + err))
 })
 // Get group by id
-router.route('find-group/:id').get((req, res) => {
-  Group.findById(req.body.id)
-    .then((group) => res.json(group))
-    .catch((err) => res.status(400).json('Error: ' + err))
+router.route('/find-group/:id').get(function (req, res){
+  console.log("find group by id: " + req.params.id)
+    Group.findById(req.params.id, function(err, data){
+      if(err){
+        console.log(err)
+      }else{
+        res.json(data)
+        console.log(data)
+      }
+    })
 })
+
 // Get Group by joinCode
 router.route('/find_group_byJoinCode/:joinCode').get(function (req, res) {
   console.log('find-group get req.body:', req.body)

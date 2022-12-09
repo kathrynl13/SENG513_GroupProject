@@ -9,9 +9,15 @@ router.route('/').get((req, res) => {
 })
 // Get member by id
 router.route('/find-member/:id').get((req, res) => {
-  Member.findById(req.body.id)
-    .then((member) => res.json(member))
-    .catch((err) => res.status(400).json('Error: ' + err))
+  console.log("id: " + req.params.id)
+  Member.findById(req.params.id, function(err, data){
+    if(err){
+      console.log(err)
+    }else{
+      res.json(data)
+      //console.log(data)
+    }
+  })
 })
 
 // Get Member by username
@@ -59,6 +65,8 @@ router.route('/create_member').post((req, res) => {
   const username = req.body.username
   const email = req.body.email
   const password = req.body.password
+  const birthDate = req.body.birthDate
+  const occupation = req.body.occupation
   // const birthDate = Date.parse(req.body.date)
   // const occupation = req.body.occupation
   // const buysFor = req.body.buysFor
@@ -71,8 +79,8 @@ router.route('/create_member').post((req, res) => {
     username,
     email,
     password,
-    // birthDate,
-    // occupation,
+    birthDate,
+    occupation,
     // buysFor,
     // mySanta,
     // wishDetails,
@@ -93,14 +101,7 @@ router.route('/update_wishlist/:id').post((req, res) => {
   console.log('member_id:', member_id)
   Member.findByIdAndUpdate(
     member_id,
-    {
-      $push: {
-        wishDetails: req.body,
-      },
-    },
-    {
-      new: true,
-    },
+    {wishDetails: req.body},
     function (err, data) {
       if (err) {
         res.json('wishDetails not found :(').end()
@@ -113,25 +114,26 @@ router.route('/update_wishlist/:id').post((req, res) => {
 
 // Update member by given ID
 router.route('/update_member/:id').post((req, res) => {
-  Member.findById(req.body.id)
-    .then((member) => {
-      const firstName = req.body.firstName
-      const lastName = req.body.lastName
-      const username = req.body.username
-      const birthDate = Date.parse(req.body.date)
-      const email = req.body.email
-      const occupation = req.body.occupation
-      const password = req.body.password
-      const buysFor = req.body.buysFor
-      const mySanta = req.body.mySanta
-      const wishDetails = req.body.wishDetails
-      member
-        .save()
-        .then(() => res.json('Member updated!'))
-        .catch((err) => res.status(400).json('Error: ' + err))
-    })
-    .catch((err) => res.status(400).json('Error: ' + err))
-})
+  console.log("memberID: " + req.params.id)
+  Member.findByIdAndUpdate(
+    {_id:req.params.id},
+    { firstName:req.body.firstName,
+      lastName:req.body.lastName,
+      username:req.body.username,
+      email:req.body.email,
+      occupation:req.body.occupation,
+      birthDate: req.body.birthDate,//Date.parse(req.body.birthDate),       
+      password: req.body.password,
+      buysFor: req.body.buysFor,
+      mySanta: req.body.mySanta }, 
+    function(err, result){
+      if(err){
+        res.status(400).json('Error: ' + err)
+      }else{
+        res.send(result)
+      }
+    }
+  )})
 
 //                           *** routes below may not be needed ***
 

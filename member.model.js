@@ -34,7 +34,7 @@ const memberSchema = new Schema(
       required: true,
       unique: true,
     },
-    birthDate: { type: Date, required: false },
+    birthDate: { type: String, required: false },
     email: {
       type: String,
       required: true,

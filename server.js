@@ -127,12 +127,17 @@ io.on('connection', function (socket){
         const username = newUser.username;
         const email = newUser.email;
         const password = newUser.password;
+        const occupation = "";
+        const birthDate = Date();
+
         const newMember={
             firstName,
             lastName,
             username,
             email,
             password,
+            occupation,
+            birthDate
         }
        
         // post new member to database
@@ -175,7 +180,7 @@ io.on('connection', function (socket){
 
 
     // emits from createGroup.js
-
+    // they create a group
     socket.on("GroupInfoInputted", (name, limit, date) => {
 
         const groupName = name;
@@ -194,7 +199,7 @@ io.on('connection', function (socket){
             dueDate
         }
 
-        // crate a group in the database
+        // create a group in the database
         axios
         .post(APIs.create_group, newGroup)
         .then((res) => {
@@ -208,31 +213,67 @@ io.on('connection', function (socket){
         })
         //.catch((res) => console.log(res.data + " Couldn't create GROUP"))
 
+        // add the group to groups array in the member
+        //HERE
+
     })
 
 
 
     //get member data 
     socket.on('member-information-request', function (message){
-        //  SEARCH THROUGH DATEBASE FOR USER PROFILE AND BUILD OBJECT 
-        let thisMember = getMemberObject(message)
-        socket.emit('member-information-reply', thisMember)
+        //  SEARCH THROUGH DATEBASE 
+        console.log("id: " + message)
+        axios
+        .get(APIs.find_member_byID + message) 
+        .then((res) => {
+            socket.emit('member-information-reply', res.data)
+            //console.log("name: " + res.data.firstName)
+        }) 
+        .catch((res) => console.log(" Couldn't find user by ID"+ res.data.firstName))
     })
 
     //get group data
     socket.on('group-information-request', function (message){
         //SEARCH THROUGH DATABASE AND RETUN GROUP PROFILE IN BUILT OBJECT 
-        if(message==1) {
-            socket.emit('group-information-reply', group);
-        } else 
-            socket.emit('group-information-reply', group1);
-        
+        console.log("group id: " + message)
+        axios
+        .get(APIs.find_group_byID + message) 
+        .then((res) => {
+            socket.emit('group-information-reply', res.data)
+            console.log("name: " + res.data)
+            console.log("joinCode: " + res.data.joinCode)
+        }) 
+        .catch((res) => console.log(" Couldn't find user by ID"+ res.data))
+       
     })
 
     //update member information
     socket.on('member-information-update', function (message){
         //update returned infromation to DB
-        updateMemberInfromation(message)
+        var memberObject = message.memberObject
+        var memberID = message.id
+
+        axios
+        .post(APIs.update_member + memberID, memberObject)
+        .then((res) => {
+            console.log('Member information updated !')
+        })
+        .catch((res) => console.log(res.data + "Couldn't update member infromation"))
+    })
+    
+    //update memeber wishlist
+    socket.on('member-wishlist-update', function (message){
+        var wishObject = message.wish 
+        var memberID = message.id
+
+        axios
+        .post(APIs.update_wishlist + memberID, wishObject)
+        .then((res) => {
+            console.log('WishList updated !')
+        })
+        .catch((res) => console.log(res.data + "Couldn't update Wishlist"))
+    
     })
 
     //update group infromation 
