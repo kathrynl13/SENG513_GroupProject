@@ -8,16 +8,8 @@ backButtonj.addEventListener('click', function() {
 
 // when user clicke create group
 createGroupBtn.addEventListener('click', function() {
-    // check that input is not empty
-    if(createGroupInp.value == "") {
-        alert("Please enter a group name.");
-        return;
-    }
-
-    // emit group name to the server
-    socket.emit("newGroupCreated", createGroupInp.value);
-
-    // go to MAIN PAGE TODO
+    // link to createGroup.html
+    window.location.href = "CreateGroup.html";
 })
 
 // when user clicks join group
@@ -30,6 +22,13 @@ joinGroupBtn.addEventListener('click', function() {
 
     // emit code to the server
     socket.emit("groupJoined", joinGroupInp.value);
+})
 
-    //GOTO PAGE
+socket.on("joinfail", ()=> {
+    alert("Failed to join group. Please try again.");
+})
+
+socket.on("redirecttosantagroups", (groupname)=> {
+    alert("You have succcessfully joined the group: "+groupname);
+    window.location.href="santagroups.html";
 })

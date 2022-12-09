@@ -1,26 +1,18 @@
 {
-  "name": "project",
+  "name": "seng513_groupproject-justin",
   "version": "1.0.0",
-  "description": "",
-  "main": "groupScript.js",
+  "description": "SENG 513 Group 17",
+  "main": "server.js",
   "scripts": {
-    "devStart": "nodemon server.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kathrynl13/SENG513_GroupProject.git"
-  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kathrynl13/SENG513_GroupProject/issues"
-  },
-  "homepage": "https://github.com/kathrynl13/SENG513_GroupProject#readme",
   "dependencies": {
     "axios": "^1.2.0",
-    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mongoose": "^6.7.5",
     "socket.io": "^4.5.4"
   },
   "devDependencies": {

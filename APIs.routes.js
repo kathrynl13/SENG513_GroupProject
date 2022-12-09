@@ -11,8 +11,7 @@ const membersPath = host + '/members'
 define('find_all_members', membersPath + '/messages/')
 define('find_member_byID', membersPath + '/find-member/:id')
 define('find_member_byUsername', membersPath +
-  '/find_member_byUsername/:username')
-
+  '/find_member_byUsername/')
 define('find_member_bygroupIDs', membersPath + '/find-member/:groupIDs')
 define('create_member', membersPath + '/create_member')
 define('update_member', membersPath + '/update_member')
@@ -22,7 +21,7 @@ define('update_wishlist', membersPath + '/update_wishlist/:id')
 const groupsPath = host + '/groups'
 define('find_all_groups', groupsPath + "'/'")
 define('find_group_byID', groupsPath + '/find-group/:id')
-define('find_group_byJoinCode', groupsPath + '/find-group/:joinCode')
+define('find_group_byJoinCode', groupsPath + '/find_group_byJoinCode/') // make sure the anmea re right and teh slashes are right
 define('create_group', groupsPath + '/create_group')
 define('update_group_byId', groupsPath + '/update_group/:id')
 
@@ -54,7 +53,7 @@ axios
         .then((res) => console.log(" toMemberId_message" + res.data )) 
         .catch((res) => console.log(" Couldn't find game"+ res.data))
 axios
-        .post(create_message, message)
+        .post(create_message + fromMemberId, message)
         .then((res) => {
          (" Message created !" )
         })

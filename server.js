@@ -1,136 +1,270 @@
-const { Socket } = require('engine.io')
-const axios = require('axios')
-const APIs = require('./APIs.routes.js')
+// const { Socket } = require('engine.io');
+//npm run start
+
+const axios = require('axios');
+const APIs = require('./APIs.routes.js');
 
 //setting up the connection
 var express = require('express'),
-  app = express(),
-  http = require('http'),
-  socketIO = require('socket.io'),
-  server,
-  io
+    app = express(),
+    http = require('http'),
+    socketIO = require('socket.io'),
+    server, io;
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname, '/welcome.html')
-})
+// app.get('/', function(req, res){
+//     res.sendFile(__dirname, '/welcome.html')
+// })
 
 server = http.Server(app)
 server.listen(5000)
 
 io = socketIO(server)
 
+app.use(express.static(__dirname));
+
 //defining storage objects
 var group = {
-  groupIDs: 1,
-  groupName: 'Santa Superstars',
-  dueDate: 'Decemeber 24, 2022',
-  joinCode: 1234,
-  priceLimit: 50,
-  memberIDs: [1, 2],
-  organizerID: 1,
+    groupID:1,
+    groupName:"Santa Superstars",
+    dueDate:"Decemeber 24, 2022",
+    joinCode:1234,
+    priceLimit:50,
+    members:[{id:1,name:"Anne"},{id:2,name:"Jake"}],
+    organizerID:1
 }
+
+var group1 = {
+    groupID:2,
+    groupName:"Santa Bitches",
+    dueDate:"Decemeber 24, 2022",
+    joinCode:7777,
+    priceLimit:50,
+    members:[{id:1,name:"Anne"},{id:2,name:"Jake"}],
+    organizerID:2
+}
+
 var member1 = {
-  memberID: 1,
-  groupIDs: 1,
-  firstName: 'Anne',
-  lastName: 'Jones',
-  age: 30,
-  email: 'anne.jones@gmail.com',
-  username: 'aJones',
-  password: 'stupidPassword',
-  occupation: 'Doctor',
-  wish_want: 'Glasses',
-  wish_need: 'Spoons',
-  wish_eat: 'Apples',
-  wish_do: 'Gym',
-  wish_wear: 'Socks',
-  wish_learn: 'Integrals',
-  secretSanta: 2, //ID number of the person
+    memberID:1,
+    groupID:[1,2],
+    firstName:"Anne",
+    lastName:"Jones",
+    age: 30,
+    email:"anne.jones@gmail.com",
+    username:"aJones",
+    password:"stupidPassword",
+    occupation:"Doctor",
+    wish_want:"Glasses",
+    wish_need:"Spoons",
+    wish_eat:"Apples",
+    wish_do:"Gym",
+    wish_wear:"Socks",
+    wish_learn:"Integrals",
+    secretSanta:2   //ID number of the person
 }
 var member2 = {
-  memberID: 2,
-  groupIDs: 1,
-  firstName: 'Jake',
-  lastName: 'Woods',
-  age: 22,
-  email: 'jake.woods@gmail.com',
-  username: 'jWoods',
-  password: 'stupidPassword2',
-  occupation: 'Actor',
-  wish_want: 'Markers',
-  wish_need: 'Onions',
-  wish_eat: 'Beers',
-  wish_do: 'Movies',
-  wish_wear: 'Headbands',
-  wish_learn: 'Painting',
-  secretSanta: 1, //ID number of the person
-}
-function createID() {
-  let id = Math.random().toString(9).slice(2).substring(1, 5)
-  return id
+    memberID:2,
+    groupID:[1],
+    firstName:"Jake",
+    lastName:"Woods",
+    age: 22,
+    email:"jake.woods@gmail.com",
+    username:"jWoods",
+    password:"stupidPassword2",
+    occupation:"Actor",
+    wish_want:"Markers",
+    wish_need:"Onions",
+    wish_eat:"Beers",
+    wish_do:"Movies",
+    wish_wear:"Headbands",
+    wish_learn:"Painting",
+    secretSanta:1   //ID number of the person
 }
 
-//socket requests and emits
-io.on('connection', function (socket) {
-  //get member data
-  socket.on('member-information-request', function (message) {
-    //  SEARCH THROUGH DATEBASE FOR USER PROFILE AND BUILD OBJECT
-    let thisMember = getMemberObject(message)
-    socket.emit('member-information-reply', thisMember)
-  })
+function createID(){
+    let id = Math.random().toString(9).slice(2).substring(1, 5)
+    return id;
+}
 
-  //get group data
-  socket.on('group-information-request', function (message) {
-    //SEARCH THROUGH DATABASE AND RETUN GROUP PROFILE IN BUILT OBJECT
-    socket.emit('group-information-reply', group)
-  })
+//socket requests and emits 
+io.on('connection', function (socket){
+    console.log("Made socket connection"); //
 
-  //update member information
-  socket.on('member-information-update', function (message) {
-    //update returned infromation to DB
-    updateMemberInfromation(message)
-  })
+    // emits from index, createAccount, createorjoin page_______________________________________________
 
-  //update group infromation
-  socket.on('group-information-update', function (message) {
-    //update returned infromation to DB
-  })
+    // user clicks login button
+    socket.on('login', (username, password) => {
+
+        // logs to the server
+        console.log("this is user-", username,"-");
+        console.log("length",username.length);
+        console.log("api is", APIs.find_member_byUsername + username);
+
+        // check if username exists in database
+        axios
+        .get(APIs.find_member_byUsername+username)
+        .then((res) => {
+            console.log(" User found!", res.data )
+
+            // check if password matches
+            if(password == res.data.password) {
+                console.log("password match");
+                // redirect to create or join page:
+                socket.emit('firsttimeredirect');
+
+            } else socket.emit('loginfail');
+
+        }) 
+        .catch((res) => console.log(" Couldn't find user"+ res.data))
+
+    })
+
+    // user makes a new account. newUser object.
+    socket.on('newAccount', (newUser) => {
+        // console.log(newUser.fname);
+        // add user to the database
+        const firstName = newUser.fname;
+        const lastName = newUser.lname;
+        const username = newUser.username;
+        const email = newUser.email;
+        const password = newUser.password;
+        const newMember={
+            firstName,
+            lastName,
+            username,
+            email,
+            password,
+        }
+       
+        // post new member to database
+        axios
+        .post(APIs.create_member, newMember)
+        .then((res) => {
+         (" Member created !" )
+        })
+        .catch((res) => console.log(res.data + " Couldn't create Member"))
+
+    })
+
+    // // user creates a new santa group
+    // socket.on("newGroupCreated", (name) => {
+    //     console.log(name);
+    //     // generate access code for the database
+    //     let accesscode = createID();
+    //     // add group to the database
+    // })
+
+    // user joins an existing santa group
+    socket.on("groupJoined", (code) => {
+        console.log(code);
+        // check if the group exists
+        // get request on join code 
+        axios
+        .get(APIs.find_group_byJoinCode+code)
+        .then((res) => {
+            console.log("group found!", res.data)
+            if(res.data._id != null)  { //group not exists
+                console.log("groupID: ", res.data._id); // gotta store this somewhere?
+                socket.emit("redirecttosantagroups", res.data.groupName);
+            } else socket.emit("joinfail");
+        }) 
+        .catch(function (error) {
+            console.log("Error,",error);
+            socket.emit("joinfail");
+        })
+    })
+
+
+    // emits from createGroup.js
+
+    socket.on("GroupInfoInputted", (name, limit, date) => {
+
+        const groupName = name;
+        const joinCode= createID();
+        const createdBy= "";
+        const groupMembers= "";
+        const priceLimit= limit;
+        const dueDate= date;
+
+        const newGroup={
+            groupName,
+            joinCode,
+            createdBy,
+            groupMembers,
+            priceLimit,
+            dueDate
+        }
+
+        // crate a group in the database
+        axios
+        .post(APIs.create_group, newGroup)
+        .then((res) => {
+         console.log(" GROUP created !" );
+         console.log("CODE:", joinCode); 
+         socket.emit("groupCreated", joinCode); // in creatGroup
+         
+        })
+        .catch(function (error) {
+            console.log("Error,",error);
+        })
+        //.catch((res) => console.log(res.data + " Couldn't create GROUP"))
+
+    })
+
+
+
+    //get member data 
+    socket.on('member-information-request', function (message){
+        //  SEARCH THROUGH DATEBASE FOR USER PROFILE AND BUILD OBJECT 
+        let thisMember = getMemberObject(message)
+        socket.emit('member-information-reply', thisMember)
+    })
+
+    //get group data
+    socket.on('group-information-request', function (message){
+        //SEARCH THROUGH DATABASE AND RETUN GROUP PROFILE IN BUILT OBJECT 
+        if(message==1) {
+            socket.emit('group-information-reply', group);
+        } else 
+            socket.emit('group-information-reply', group1);
+        
+    })
+
+    //update member information
+    socket.on('member-information-update', function (message){
+        //update returned infromation to DB
+        updateMemberInfromation(message)
+    })
+
+    //update group infromation 
+    socket.on('group-information-update', function (message){
+        //update returned infromation to DB
+    })
 })
 
 //search in database for member
-function getMemberObject(memberID) {
-  var member = null
-
-  axios
-    .get(find_toMemberId_message + memberID)
-    .then((res) => {
-      console.log(' Member data is: ' + res.data)
-      member = res.data
-    })
-    .catch((res) => console.log(" Couldn't find game" + res.data))
-  return member
-  // if (memberID == 1) {
-  //   return member1
-  // } else {
-  //   return member2
-  // }
+function getMemberObject(memberID){
+    if(memberID == 1){
+        return member1
+    }else{
+        return member2
+    }
 }
-function updateMemberInfromation(message) {
-  member1.memberID = message.memberID
-  member1.groupIDs = message.groupIDs
-  member1.firstName = message.firstName
-  member1.lastName = message.lastName
-  member1.age = message.age
-  member1.email = message.email
-  member1.username = message.username
-  member1.password = message.password
-  member1.occupation = message.occupation
-  member1.wish_want = message.wish_want
-  member1.wish_need = message.wish_need
-  member1.wish_eat = message.wish_eat
-  member1.wish_do = message.wish_do
-  member1.wish_wear = message.wish_wear
-  member1.wish_learn = message.wish_learn
-  member1.secretSanta = message.secretSanta
-  console.log(member1)
+function updateMemberInfromation(message){
+    member1.memberID = message.memberID
+    member1.groupID = message.groupID
+    member1.firstName = message.firstName
+    member1.lastName = message.lastName
+    member1.age = message.age
+    member1.email = message.email
+    member1.username = message.username
+    member1.password = message.password
+    member1.occupation = message.occupation
+    member1.wish_want = message.wish_want
+    member1.wish_need = message.wish_need
+    member1.wish_eat = message.wish_eat
+    member1.wish_do = message.wish_do
+    member1.wish_wear = message.wish_wear
+    member1.wish_learn = message.wish_learn
+    member1.secretSanta = message.secretSanta
+    console.log(member1)
 }
