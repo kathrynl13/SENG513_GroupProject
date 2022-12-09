@@ -1,7 +1,7 @@
 setCookie('groupid', 1, 20)
 setCookie('memberid', 1, 20)
 
-var memberID = getCookie('memberid')
+var memberID = '63938c38212094b434c4feed' //getCookie('memberid')
 var groupID = getCookie('groupid')
 var groupArray
 let numberOfGroups = 0
@@ -12,10 +12,14 @@ const socket = io('http://localhost:5000')
 socket.emit('member-information-request', memberID)
 
 socket.on('member-information-reply', (member) => {
-  groupArray = member.groupID //array of group ID the member is apart of
-  numberOfGroups = groupArray.length
-  showGroupList(numberOfGroups)
-  updateNamesAndCode(numberOfGroups)
+  if (member) {
+    groupArray = member.myGroups //array of group ID the member is apart of
+    numberOfGroups = groupArray.length
+    showGroupList(numberOfGroups)
+    updateNamesAndCode(groupArray)
+  } else {
+    console.log('Could not get member data')
+  }
 })
 
 function showGroupList(numberOfGroups) {
@@ -26,9 +30,9 @@ function showGroupList(numberOfGroups) {
   }
 }
 
-function updateNamesAndCode(numGroups) {
-  for (let i = 1; i <= numGroups; i++) {
-    let groupID = groupArray[i - 1]
+function updateNamesAndCode(myGroups) {
+  for (let i = 0; i < myGroups.length; i++) {
+    let groupID = myGroups[i]
     socket.emit('group-information-request', groupID)
   }
 }
