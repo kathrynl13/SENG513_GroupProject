@@ -13,6 +13,24 @@ router.route('/find-member/:id').get((req, res) => {
     .then((member) => res.json(member))
     .catch((err) => res.status(400).json('Error: ' + err))
 })
+
+// Get Member by username
+router.route('/find_member_byUsername/:username').get(function (req, res) {
+  // console.log('find-member get req.body:', req.body)
+  // console.log('find-member get req.params:', req.params)
+  const username = req.params.username
+  Member.findOne(
+    {
+      username,
+    },
+    function (err, member) {
+      if (!member) {
+        return res.json('Member not found :(').end()
+      }
+      return res.json(member)
+    },
+  )
+})
 // Get Member by groupIDs
 router.route('/find-member/:groupIDs').get(function (req, res) {
   // console.log('find-member get req.body:', req.body)
@@ -33,28 +51,29 @@ router.route('/find-member/:groupIDs').get(function (req, res) {
 //                           *** Post Requests ***
 // Create Member
 router.route('/create_member').post((req, res) => {
+  console.log('your request: ', req.body)
   const firstName = req.body.firstName
   const lastName = req.body.lastName
   const username = req.body.username
-  const birthDate = Date.parse(req.body.date)
   const email = req.body.email
-  const occupation = req.body.occupation
   const password = req.body.password
-  const buysFor = req.body.buysFor
-  const mySanta = req.body.mySanta
-  const wishDetails = []
+  // const birthDate = Date.parse(req.body.date)
+  // const occupation = req.body.occupation
+  // const buysFor = req.body.buysFor
+  // const mySanta = req.body.mySanta
+  // const wishDetails = []
 
   const newMember = new Member({
     firstName,
     lastName,
     username,
-    birthDate,
-    email,
-    occupation,
     password,
-    buysFor,
-    mySanta,
-    wishDetails,
+    email,
+    // birthDate,
+    // occupation,
+    // buysFor,
+    // mySanta,
+    // wishDetails,
   })
   newMember
     .save()

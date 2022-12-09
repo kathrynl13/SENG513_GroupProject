@@ -32,9 +32,9 @@ const memberSchema = new Schema(
     username: {
       type: String,
       required: true,
-      unique: false,
+      unique: true,
     },
-    birthDate: { type: Date, required: true },
+    birthDate: { type: Date, required: false },
     email: {
       type: String,
       required: true,
@@ -42,7 +42,7 @@ const memberSchema = new Schema(
     },
     occupation: {
       type: String,
-      required: true,
+      required: false,
       unique: false,
     },
     password: {
@@ -53,17 +53,17 @@ const memberSchema = new Schema(
 
     buysFor: {
       type: String,
-      required: true,
+      required: false,
       unique: false,
     },
     mySanta: {
       type: String,
-      required: true,
+      required: false,
       unique: false,
     },
     wishDetails: {
       type: Object,
-      required: true,
+      required: false,
       unique: false,
     },
   },

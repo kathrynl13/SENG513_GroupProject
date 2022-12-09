@@ -8,19 +8,22 @@ const host = 'http://localhost:8800'
 
 //                          *** Members Routes ***
 const membersPath = host + '/members'
-define('find_all_members ', membersPath + '/messages/')
-define('find_member_byID ', membersPath + '/find-member/:id')
-define('find_member_bygroupIDs ', membersPath + '/find-member/:groupIDs')
-define('create_member ', membersPath + '/create_member')
-define('update_member ', membersPath + '/update_member')
-define('update_wishlist ', membersPath + '/update_wishlist/:id')
+define('find_all_members', membersPath + '/messages/')
+define('find_member_byID', membersPath + '/find-member/:id')
+define('find_member_byUsername', membersPath +
+  '/find_member_byUsername/:username')
+
+define('find_member_bygroupIDs', membersPath + '/find-member/:groupIDs')
+define('create_member', membersPath + '/create_member')
+define('update_member', membersPath + '/update_member')
+define('update_wishlist', membersPath + '/update_wishlist/:id')
 
 //                          *** Groups Routes ***
 const groupsPath = host + '/groups'
-define('find_all_groups ', groupsPath + "'/'")
-define('find_group_byID ', groupsPath + '/find-group/:id')
-define('find_group_byJoinCode ', groupsPath + '/find-group/:joinCode')
-define('create_group ', groupsPath + '/create_group')
+define('find_all_groups', groupsPath + "'/'")
+define('find_group_byID', groupsPath + '/find-group/:id')
+define('find_group_byJoinCode', groupsPath + '/find-group/:joinCode')
+define('create_group', groupsPath + '/create_group')
 define('update_group_byId', groupsPath + '/update_group/:id')
 
 //                          *** Messages Routes ***
@@ -51,7 +54,7 @@ axios
         .then((res) => console.log(" toMemberId_message" + res.data )) 
         .catch((res) => console.log(" Couldn't find game"+ res.data))
 axios
-        .post(create_message + fromMemberId, message)
+        .post(create_message, message)
         .then((res) => {
          (" Message created !" )
         })
