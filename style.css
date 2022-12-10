@@ -405,7 +405,7 @@ html {
 #Name, #DueDate, #PriceLimit {
     width: 300px; 
     border-color: #F92545; 
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 
 #addRuleButton {
@@ -428,5 +428,16 @@ html {
 
 }
 
+.groupdeets {
+    font-family:"Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+}
+
+#drawNames {
+    font-size: xx-large;
+    background-color: green;
+    color: white;
+    border-color: green;
+    align-items: right;
+}
 
 

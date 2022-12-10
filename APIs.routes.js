@@ -10,8 +10,7 @@ const host = 'http://localhost:8800'
 const membersPath = host + '/members'
 define('find_all_members', membersPath + '/messages/')
 define('find_member_byID', membersPath + '/find-member/')
-define('find_member_byUsername', membersPath +
-  '/find_member_byUsername/')
+define('find_member_byUsername', membersPath + '/find_member_byUsername/')
 define('find_member_bygroupIDs', membersPath + '/find-member/:groupIDs')
 define('create_member', membersPath + '/create_member')
 define('update_member', membersPath + '/update_member/')
@@ -21,9 +20,10 @@ define('update_wishlist', membersPath + '/update_wishlist/')
 const groupsPath = host + '/groups'
 define('find_all_groups', groupsPath + "'/'")
 define('find_group_byID', groupsPath + '/find-group/')
-define('find_group_byJoinCode', groupsPath + '/find-group/:joinCode')
-define('create_group ', groupsPath + '/create_group')
-define('update_group_byId', groupsPath + '/update_group/:id')
+define('find_group_byJoinCode', groupsPath + '/find_group_byJoinCode/') // make sure the names are right and the slashes are right
+define('create_group', groupsPath + '/create_group')
+define('update_group_byID', groupsPath + '/update_group_byID/') //'/update_group/:id')
+define('update_groupRules', groupsPath + '/update_groupRules/:id')
 
 //                          *** Messages Routes ***
 const messagesPath = host + '/messages'

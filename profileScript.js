@@ -1,8 +1,4 @@
-//****CHANGE MEMBERID TO COOKIE VALUE LATER  */
-//let memberID = '638c197e721063581cdf7071' 
-var memberID = '638c1a592d3871b07663e547'
-//var memberID = '638f89b3acbf9714f0b26c70'
-//****CHANGE MEMBERID TO COOKIE VALUE LATER  */
+var memberID = getCookie('memberid')
 
 thisMember = {
     username: "unknown",
@@ -69,7 +65,6 @@ doneEdit.addEventListener("click", ()=> {
 
     // create member object. error: there are some undefined
         thisMember.firstName =  fnamei.value
-        console.log(fnamei.value)
         thisMember.lastName = lnamei.value
         thisMember.birthDate = birthdatei.value
         thisMember.email = emaili.value
@@ -79,4 +74,17 @@ doneEdit.addEventListener("click", ()=> {
     console.log(thisMember.firstName)
     // emit to server the updated profile
     socket.emit("member-information-update", {memberObject:thisMember, id:memberID});
+
 })
+///////////////////////// https://stackoverflow.com/questions/2144386/how-to-delete-a-cookie/////////////////////////////
+function getCookie(name) {
+    var nameEQ = name + '='
+    var ca = document.cookie.split(';')
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i]
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length)
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length)
+    }
+    return null
+}
+  /////////////////////////end of cited code//////////////////////////////////////

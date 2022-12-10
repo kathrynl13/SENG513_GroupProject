@@ -1,8 +1,4 @@
-//****CHANGE MEMBERID TO COOKIE VALUE LATER  */
-//let memberID = '638c197e721063581cdf7071' 
-//let memberID = '638c1a592d3871b07663e547'
-let memberID = '638f89b3acbf9714f0b26c70'
-//****CHANGE MEMBERID TO COOKIE VALUE LATER  */
+let memberID = getCookie('memberid')
 
 const wishDetails = {
     wish_want:"unknown",
@@ -98,3 +94,16 @@ document.getElementById('submit-wishlist-button').addEventListener('click', func
 
     socket.emit('member-wishlist-update', {wish:wishDetails, id:memberID})
 })
+
+///////////////////////// https://stackoverflow.com/questions/2144386/how-to-delete-a-cookie/////////////////////////////
+function getCookie(name) {
+    var nameEQ = name + '='
+    var ca = document.cookie.split(';')
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i]
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length)
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length)
+    }
+    return null
+}
+  /////////////////////////end of cited code//////////////////////////////////////

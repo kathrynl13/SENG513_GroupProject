@@ -25,15 +25,6 @@ login.addEventListener('click', function() {
     }
     
     socket.emit("login", userInput.value, passInput.value);
-
-    // getting the users group id from the server/database
-    // let groupID = 1;
-    // let memberID = 1;
-
-    // create a cookie with the user id and group id that user belongs to
-    setCookie("groupid", 25);
-    setCookie("memberid", 24);
-
     console.log(getCookie("user"));
 })
 
@@ -42,8 +33,11 @@ socket.on('redirect', ()=> {
     window.location.href = "wishlist.html";
 })
 
-socket.on('firsttimeredirect', ()=> {
-    window.location.href = "createorjoingroup.html";
+//the redirects everytime
+socket.on('firsttimeredirect', (id)=> {
+    setCookie("memberid", id);
+    window.location.href = "santaGroups.html";
+    //window.location.href = "createorjoingroup.html";
 })
 
 socket.on('loginfail', ()=> {

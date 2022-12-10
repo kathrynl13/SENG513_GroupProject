@@ -1,8 +1,6 @@
 // const { Socket } = require('engine.io');
 //npm run start
 
-//import { ObjectId } from "mongodb";
-
 const axios = require('axios');
 const APIs = require('./APIs.routes.js');
 
@@ -96,57 +94,53 @@ io.on('connection', function (socket){
     // user clicks login button
     socket.on('login', (username, password) => {
 
+        // logs to the server
         console.log("this is user-", username,"-");
         console.log("length",username.length);
         console.log("api is", APIs.find_member_byUsername + username);
 
+        // check if username exists in database
         axios
         .get(APIs.find_member_byUsername+username)
         .then((res) => {
-            console.log(" User found!" + res.data )
-            // set the loginexists as true
+            console.log(" User found!", res.data )
+
+            // check if password matches
+            if(password == res.data.password) {
+                console.log("password match");
+                // redirect to create or join page:
+                socket.emit('firsttimeredirect', res.data._id);
+
+            } else socket.emit('loginfail');
+
         }) 
         .catch((res) => console.log(" Couldn't find user"+ res.data))
 
-
-
-        var loginExists = false;
-        // search for database if login exists
-        // ...
-
-
-        if(loginExists==true) {
-            // check if this is the first time user is logging in. if so bring to createorjoinpage
-            let firstTime = true; 
-            if(firstTime) {
-                socket.emit('firsttimeredirect');
-            } else socket.emit('redirect');
-            // else bring to main user page
-            
-        } else socket.emit('loginfail');
     })
 
     // user makes a new account. newUser object.
     socket.on('newAccount', (newUser) => {
-        console.log(newUser.fname);
+        // console.log(newUser.fname);
         // add user to the database
-
-        
         const firstName = newUser.fname;
         const lastName = newUser.lname;
         const username = newUser.username;
         const email = newUser.email;
         const password = newUser.password;
+        const occupation = "";
+        const birthDate = Date();
+
         const newMember={
             firstName,
             lastName,
             username,
             email,
             password,
+            occupation,
+            birthDate
         }
-
-        console.log(newMember);
-
+       
+        // post new member to database
         axios
         .post(APIs.create_member, newMember)
         .then((res) => {
@@ -154,50 +148,169 @@ io.on('connection', function (socket){
         })
         .catch((res) => console.log(res.data + " Couldn't create Member"))
 
-
-
-    //     // user object
-    // const newUser = {
-    //     fname: fname.value,
-    //     lname: lname.value,
-    //     email: email.value,
-    //     user: newusername.value,
-    //     pass: newpassword.value
-    // };
-    // socket.emit("newAccount", newUser);
-
     })
 
-    // user creates a new santa group
-    socket.on("newGroupCreated", (name) => {
-        console.log(name);
-        // generate access code for the database
-        let accesscode = createID();
-        // add group to the database
-    })
+    // // user creates a new santa group
+    // socket.on("newGroupCreated", (name) => {
+    //     console.log(name);
+    //     // generate access code for the database
+    //     let accesscode = createID();
+    //     // add group to the database
+    // })
 
     // user joins an existing santa group
-    socket.on("groupJoined", (code) => {
+    socket.on("groupJoined", (code, memberID) => {
         console.log(code);
+        var groupCode = '';
         // check if the group exists
-        var groupExists = false;
-        if(groupExists==true) {
-            // add user to the group
-            // bring user to the main page of the group
-        } else socket.emit("joinfail");
+        // get request on join code 
+        axios
+        .get(APIs.find_group_byJoinCode+code)
+        .then((res) => {
+            console.log("group found!", res.data)
+            if(res.data._id != null)  { //if group exists
+                // console.log("groupID: ", res.data._id); // gotta store this somewhere?
+                groupCode = res.data._id;
+                // console.log("memberID", memberID);
+                // console.log(res.data.groupMembers);
+                
+                // if member is not yet in the member list, update res.data.groupmembers to have it
+                if (res.data.groupMembers.includes(memberID) == false) {
+                    res.data.groupMembers.push(memberID);
+                    // console.log("OK new group", res.data)
+                
+                    // use update group by id to update group to have this member id in groupMembers
+                    axios
+                    .post(APIs.update_group_byID + res.data._id, res.data)
+                    .then((res) => {
+                        console.log('group information updated !')
+                    })
+                    .catch(function (error) {console.log(error);})
+                }
+
+                // get member by id
+                axios
+                .get(APIs.find_member_byID + memberID) 
+                .then((res) => {
+                    // console.log("name: " + res.data.firstName)
+
+                    // if the groupID is not in the member's myGroups, add it
+                    if(res.data.myGroups.includes(groupCode) == false) {
+                        // update mygroups to have groupid for the member, res.data
+                        res.data.myGroups.push(groupCode);
+                        // console.log("ok new member", res.data);
+
+
+                        // post update member
+                        axios
+                        .post(APIs.update_member + res.data._id, res.data)
+                        .then((res) => {
+                            console.log('Member information updated !')
+                        })
+                        .catch((res) => console.log(res.data + "Couldn't update member infromation"))
+                    }
+                }) 
+                .catch((res) => console.log(" Couldn't find user by ID"+ res.data.firstName))
+
+                // done the my groups part
+
+                socket.emit("redirecttosantagroups", res.data.groupName);
+            } else socket.emit("joinfail");
+        }) 
+        .catch(function (error) {
+            console.log("Error,",error);
+            socket.emit("joinfail");
+        })
     })
+
+
+    // emits from createGroup.js
+    // they create a group
+    socket.on("GroupInfoInputted", (name, limit, date, memberID) => {
+
+        const groupName = name;
+        const joinCode= createID();
+        const createdBy= "";
+        var groupMembers= [];
+        const priceLimit= limit;
+        const dueDate= date;
+
+        groupMembers.push(memberID); // add the member who created into the members
+
+        const newGroup={
+            groupName,
+            joinCode,
+            createdBy,
+            groupMembers,
+            priceLimit,
+            dueDate
+        }
+
+        var groupCode ='';
+
+        // create a group in the database. 
+        axios
+        .post(APIs.create_group, newGroup)
+        .then((res) => {
+         console.log(" GROUP created !",);
+         console.log("CODE:", joinCode); 
+         socket.emit("groupCreated", joinCode); // in creatGroup
+        })
+        .catch(function (error) {
+            console.log("Error,",error);
+        })
+
+        // get the group we just made to get the id.
+        axios
+        .get(APIs.find_group_byJoinCode+joinCode)
+        .then((res) => {
+            groupCode = res.data._id;
+        })
+        .catch(function (error) {
+            console.log("Error,",error);
+        })
+
+        // add the group to groups array in the member
+        // get member by id
+        // console.log("MEMBER ID", memberID);
+        axios
+        .get(APIs.find_member_byID + memberID) 
+        .then((res) => {
+            // console.log("name: " + res.data.firstName)
+            // update mygroups to have groupid for the member, res.data
+            res.data.myGroups.push(groupCode);
+            console.log("ok new member", res.data);
+
+            // post update member
+            axios
+            .post(APIs.update_member + res.data._id, res.data)
+            .then((res) => {
+                console.log('Member information updated !')
+            })
+            .catch((res) => console.log(res.data + "Couldn't update member infromation"))
+        })
+        .catch(function (error) {console.log(error);}) 
+        // .catch((res) => console.log(" Couldn't find user by ID...", res.data))
+
+        
+
+        
+
+    })
+
+
 
     //get member data 
     socket.on('member-information-request', function (message){
         //  SEARCH THROUGH DATEBASE 
-        console.log("id: " + message)
+        // console.log("id: " + message)
         axios
         .get(APIs.find_member_byID + message) 
         .then((res) => {
             socket.emit('member-information-reply', res.data)
             //console.log("name: " + res.data.firstName)
         }) 
-        .catch((res) => console.log(" Couldn't find user by ID"+ res.data.firstName))
+        .catch((res) => console.log(" Couldn't find user by ID"))
     })
 
     //get group data
@@ -208,10 +321,11 @@ io.on('connection', function (socket){
         .get(APIs.find_group_byID + message) 
         .then((res) => {
             socket.emit('group-information-reply', res.data)
-            console.log("name: " + res.data)
+            console.log("name: " + res.data.groupName)
             console.log("joinCode: " + res.data.joinCode)
         }) 
-        .catch((res) => console.log(" Couldn't find user by ID"+ res.data))
+        .catch((res) => console.log(" Couldn't find group by ID"+ res.data))
+       
     })
 
     //update member information
@@ -239,11 +353,26 @@ io.on('connection', function (socket){
             console.log('WishList updated !')
         })
         .catch((res) => console.log(res.data + "Couldn't update Wishlist"))
+    
     })
 
     //update group infromation 
     socket.on('group-information-update', function (message){
         //update returned infromation to DB
+
+        var groupObject = message.groupObject
+        var groupID = message.id
+
+        // console.log(groupObject, groupID);
+
+        axios
+        .post(APIs.update_group_byID + groupID, groupObject)
+        .then((res) => {
+            console.log('group information updated !')
+        })
+        .catch(function (error) {console.log(error);})
+        //.catch((res) => console.log(res.data + "Couldn't update group information"))
+
     })
 })
 

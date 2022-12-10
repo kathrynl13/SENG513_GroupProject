@@ -1,6 +1,6 @@
 //////****change with cookies */
-var groupID = '638fc4515ce0ef129280d5e2'
-var memberID = '638c1a592d3871b07663e547'
+var groupID = getCookie('groupid')
+var memberID = getCookie('memberid')
 //////****change with cookies */
 
 var membersInfo;    //the member object from database
@@ -41,7 +41,7 @@ socket.on('member-information-reply', member =>{
                 firstName: member.firstName,
                 lastName: member.lastName,
                 email: member.email,
-                occupation: member.email,
+                occupation: member.occupation,
                 birthDate: member.birthDate,
                 wish_want: member.wishDetails.wish_want,
                 wish_need:member.wishDetails.wish_need,
@@ -72,3 +72,15 @@ $('#memberselect1, #memberselect2, #memberselect3, #memberselect4, #memberselect
     document.getElementById('wishlist-learn').innerHTML = viewingMember.wish_learn
     document.getElementById('wishlist-eat').innerHTML = viewingMember.wish_eat
 })
+
+///////////////////////// https://stackoverflow.com/questions/2144386/how-to-delete-a-cookie/////////////////////////////
+  function getCookie(name) {
+    var nameEQ = name + '='
+    var ca = document.cookie.split(';')
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i]
+      while (c.charAt(0) == ' ') c = c.substring(1, c.length)
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length)
+    }
+    return null
+  }
