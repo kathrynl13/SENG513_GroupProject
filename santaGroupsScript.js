@@ -40,7 +40,7 @@ function updateNamesAndCode(myGroups) {
 socket.on('group-information-reply', (group) => {
   var tempName = 'name' + groupCounter
   var tempCode = 'code' + groupCounter
-  console.log('got something back: ' + group.groupID)
+  console.log('got something back: ' + group.id)
   let groupName = group.groupName
   document.getElementById(tempName).innerHTML = groupName
   let groupCode = group.joinCode

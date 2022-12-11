@@ -45,24 +45,28 @@ router.route('/create_group').post((req, res) => {
   const joinCode = req.body.joinCode
   const createdBy = req.body.createdBy
   const groupMembers = req.body.groupMembers
+  const groupRules = req.body.groupRules
   const priceLimit = Number(req.body.priceLimit)
-  const dueDate = req.body.date //Date.parse(req.body.date)
+  const dueDate = req.body.dueDate //Date.parse(req.body.date)
 
-  const newGame = new Group({
+  const newGroup = new Group({
     groupName,
     joinCode,
     createdBy,
     groupMembers,
+    groupRules,
     priceLimit,
     dueDate,
   })
 
-  console.log('making new group', newGame)
+  console.log('making new group', newGroup)
 
-  newGame
+  newGroup
     .save()
-    .then(() => res.json('Group added!'))
-    .catch((err) => res.status(400).json('Error: ' + err))
+    .then(() => res.json('Group added successfully!'))
+    .catch((err) =>
+      res.status(400).json('Could not added group, ERROR:\n' + err),
+    )
 })
 
 // Update group by given ID

@@ -14,6 +14,7 @@ define('find_member_byUsername', membersPath + '/find_member_byUsername/')
 define('find_member_bygroupIDs', membersPath + '/find-member/:groupIDs')
 define('create_member', membersPath + '/create_member')
 define('update_member', membersPath + '/update_member')
+define('update_member_myGroups', membersPath + '/update_member_myGroups/:id')
 define('update_wishlist', membersPath + '/update_wishlist/:id')
 
 //                          *** Groups Routes ***

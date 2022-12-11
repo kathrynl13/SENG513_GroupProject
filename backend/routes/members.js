@@ -138,6 +138,31 @@ router.route('/update_member/:id').post((req, res) => {
     },
   )
 })
+// Update Member's  groups by his given ID
+router.route('/update_member_myGroups/:id').post((req, res) => {
+  console.log('update_member_myGroups req.body:', req.body)
+  console.log('req.params:', req.params)
+  let member_id = req.params.id
+  console.log('updating myGroups of member_id:', member_id)
+  Member.findByIdAndUpdate(
+    member_id,
+    {
+      $push: {
+        myGroups: req.body,
+      },
+    },
+    {
+      new: true,
+    },
+    function (err, data) {
+      if (err) {
+        res.json('Member not found :(').end()
+      } else {
+        return res.json(data)
+      }
+    },
+  )
+})
 
 //                           *** routes below may not be needed ***
 
