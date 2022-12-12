@@ -1,6 +1,5 @@
 // const { Socket } = require('engine.io');
 //npm run start
-
 const axios = require('axios')
 const APIs = require('./APIs.routes.js')
 
@@ -31,8 +30,14 @@ var group = {
   joinCode: 1234,
   priceLimit: 50,
   members: [
-    { id: 1, name: 'Anne' },
-    { id: 2, name: 'Jake' },
+    {
+      id: 1,
+      name: 'Anne',
+    },
+    {
+      id: 2,
+      name: 'Jake',
+    },
   ],
   organizerID: 1,
 }
@@ -44,8 +49,14 @@ var group1 = {
   joinCode: 7777,
   priceLimit: 50,
   members: [
-    { id: 1, name: 'Anne' },
-    { id: 2, name: 'Jake' },
+    {
+      id: 1,
+      name: 'Anne',
+    },
+    {
+      id: 2,
+      name: 'Jake',
+    },
   ],
   organizerID: 2,
 }
@@ -181,14 +192,8 @@ io.on('connection', function (socket) {
       })
   })
 
-  // emits from createGroup.js
-  // they create a group
-  const addGroupToDB = async function (newGroup) {}
-
-  // create a group in the database
+  // create a group in the database and returns its ID
   const createGroup = async function (memberID, name, date, limit) {
-    var groupCreated = false
-
     const groupName = name
     const joinCode = createID()
     const createdBy = memberID
@@ -207,7 +212,6 @@ io.on('connection', function (socket) {
       dueDate,
     }
     console.log('New Group: ' + newGroup)
-
     var createGroup_id = ''
     try {
       createGroup_id = await axios
@@ -215,24 +219,25 @@ io.on('connection', function (socket) {
         .then((res) => {
           let success_msg = 'New group created with id: ' + res.data
           console.log(success_msg)
-          socket.emit('groupCreated', [1, success_msg]) // 0 indicates success to CreatGroup.js
+          // 1 indicates success to CreatGroup.js
+          socket.emit('groupCreated', [1, success_msg])
           return res.data
         })
     } catch (error) {
       // Handle errors
       let fail_msg = 'Following create_group ERROR occured: \n' + error
       console.log(fail_msg)
-      socket.emit('groupCreated', [0, fail_msg, groupCreated, createGroup_id]) // 0 indicates failure to CreatGroup.js
+      // 0 indicates failure to CreatGroup.js
+      socket.emit('groupCreated', [0, fail_msg])
     }
-    console.log('!!! ' + createGroup_id)
     return createGroup_id
   }
 
+  // emits from createGroup.js
   socket.on('GroupInfoInputted', (memberID, name, date, limit) => {
     createGroup(memberID, name, date, limit)
       .then((groupCreated_id) => {
         // add the group to groups array in the member
-        console.log('@@@ |' + groupCreated_id + '| ' + typeof groupCreated_id)
         if (groupCreated_id) {
           axios
             .post(APIs.update_member_myGroups + memberID, {
@@ -246,8 +251,7 @@ io.on('connection', function (socket) {
         }
       })
       .catch(function (error) {
-        let fail_msg =
-          'Following update_member_myGroups ERROR occured: \n' + error
+        let fail_msg = 'ERROR occured in update_member_myGroups : \n' + error
         console.log(fail_msg)
       })
   })
@@ -324,6 +328,7 @@ function getMemberObject(memberID) {
     return member2
   }
 }
+
 function updateMemberInfromation(message) {
   member1.memberID = message.memberID
   member1.groupID = message.groupID
