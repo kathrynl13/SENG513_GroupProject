@@ -65,6 +65,7 @@ socket.on('group-information-reply', group => {
     console.log("group created by: "+group.createdBy)
     if(group.createdBy != memberID){
         document.getElementById("drawNames").style.display = 'none'
+        document.getElementById("changeGroupDetails").style.display = 'none'
     } 
 })
 

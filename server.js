@@ -230,12 +230,12 @@ io.on('connection', function (socket){
 
         const groupName = name;
         const joinCode= createID();
-        const createdBy= "";
-        var groupMembers= [];
+        const createdBy= memberID;
+        var groupMembers= [memberID];
         const priceLimit= limit;
         const dueDate= date;
 
-        groupMembers.push(memberID); // add the member who created into the members
+        //groupMembers.push(memberID); // add the member who created into the members
 
         const newGroup={
             groupName,
@@ -246,7 +246,7 @@ io.on('connection', function (socket){
             dueDate
         }
 
-        var groupCode ='';
+        let groupCode ='';
 
         // create a group in the database. 
         axios
