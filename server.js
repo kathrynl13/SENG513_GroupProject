@@ -198,7 +198,7 @@ io.on('connection', function (socket) {
                   })
                   .catch((res) =>
                     console.log(
-                      res.data + "Couldn't update member infromation",
+                      res.data + " Couldn't update member infromation",
                     ),
                   )
               }
@@ -219,7 +219,7 @@ io.on('connection', function (socket) {
   })
 
   // create a group in the database and returns its ID
-  const createGroup = async function (memberID, name, date, limit) {
+  const createGroup = async function (name, limit, date, memberID) {
     const groupName = name
     const joinCode = createID()
     const createdBy = memberID
@@ -260,7 +260,8 @@ io.on('connection', function (socket) {
   }
 
   // emits from createGroup.js
-  socket.on('GroupInfoInputted', (memberID, name, date, limit) => {
+  socket.on('GroupInfoInputted', (name, limit, date, memberID) => {
+    console.log('@@@@@@@ ' + memberID)
     createGroup(memberID, name, date, limit)
       .then((groupCreated_id) => {
         // add the group to groups array in the member

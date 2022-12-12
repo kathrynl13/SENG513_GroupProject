@@ -60,7 +60,7 @@ function updateClicked(e) {
         ' priceLimit: ' +
         priceLimit,
     )
-    socket.emit('GroupInfoInputted', memberID, groupName, dueDate, priceLimit)
+    socket.emit('GroupInfoInputted', groupName, priceLimit, dueDate, memberID)
 
     socket.on('groupCreated', (response_msg) => {
       let status = response_msg[0]
