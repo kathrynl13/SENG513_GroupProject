@@ -1,6 +1,5 @@
 const socket = io.connect('http://localhost:5000')
-const memberID = 1 //anne - in cookie value
-
+const memberID = '63938c38212094b434c4feed' // to be replaced by cookies
 var cancelButton = document.getElementById('cancelButton'),
   addRuleButton = document.getElementById('addRuleButton')
 
@@ -33,22 +32,11 @@ function rulesFilled(array) {
       break
     }
   }
-  console.log('filled', filled)
   return filled
 }
 
 function groupDetailsFilled(name, dueDate, priceLimit) {
   var filled = name.length > 0 && dueDate.length > 0 && priceLimit.length > 0
-  console.log(
-    'name1 ',
-    name,
-    ' dueDate1 ',
-    dueDate,
-    ' priceLimit1',
-    priceLimit,
-    ' == ',
-    filled,
-  )
   return filled
 }
 
@@ -72,12 +60,12 @@ function updateClicked(e) {
         ' priceLimit: ' +
         priceLimit,
     )
-    socket.emit('GroupInfoInputted', groupName, dueDate, priceLimit)
+    socket.emit('GroupInfoInputted', memberID, groupName, dueDate, priceLimit)
 
     socket.on('groupCreated', (response_msg) => {
       let status = response_msg[0]
       let status_msg = response_msg[1]
-      console.log(status_msg)
+      console.log(response_msg)
       if (status == 1) {
         window.location.href = 'SantaGroups.html'
       } else if (status == 0) {

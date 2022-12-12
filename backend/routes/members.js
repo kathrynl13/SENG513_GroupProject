@@ -9,13 +9,12 @@ router.route('/').get((req, res) => {
 })
 // Get member by id
 router.route('/find-member/:id').get((req, res) => {
-  console.log('id: ' + req.params.id)
+  console.log('find-member id: ' + req.params.id)
   Member.findById(req.params.id, function (err, data) {
     if (err) {
-      console.log(err)
+      console.log('find-member ERROR ' + err)
     } else {
       res.json(data)
-      //console.log(data)
     }
   })
 })
@@ -40,8 +39,8 @@ router.route('/find_member_byUsername/:username').get(function (req, res) {
 
 // Get Member by groupIDs
 router.route('/find-member/:groupIDs').get(function (req, res) {
-  // console.log('find-member get req.body:', req.body)
-  // console.log('find-member get req.params:', req.params)
+  console.log('find-member get req.body:', req.body)
+  console.log('find-member get req.params:', req.params)
   const joinCode = req.params.joinCode
   Member.findOne(
     {
@@ -58,7 +57,7 @@ router.route('/find-member/:groupIDs').get(function (req, res) {
 //                           *** Post Requests ***
 // Create Member
 router.route('/create_member').post((req, res) => {
-  console.log('params', req.params, 'body: ', req.body)
+  console.log('create_member params', req.params, 'body: ', req.body)
   const firstName = req.body.firstName
   const lastName = req.body.lastName
   const username = req.body.username
@@ -97,9 +96,9 @@ router.route('/create_member').post((req, res) => {
 // Update Wishlist
 router.route('/update_wishlist/:id').post((req, res) => {
   console.log('update_wishlist req.body:', req.body)
-  console.log('req.params:', req.params)
+  console.log('update_wishlist req.params:', req.params)
   let member_id = req.params.id
-  console.log('member_id:', member_id)
+  console.log('update_wishlist member_id:', member_id)
   Member.findByIdAndUpdate(member_id, { wishDetails: req.body }, function (
     err,
     data,
@@ -114,7 +113,7 @@ router.route('/update_wishlist/:id').post((req, res) => {
 
 // Update member by given ID
 router.route('/update_member/:id').post((req, res) => {
-  console.log('memberID: ' + req.params.id)
+  console.log('update_member memberID: ' + req.params.id)
   Member.findByIdAndUpdate(
     { _id: req.params.id },
     {
@@ -140,15 +139,20 @@ router.route('/update_member/:id').post((req, res) => {
 })
 // Update Member's  groups by his given ID
 router.route('/update_member_myGroups/:id').post((req, res) => {
-  console.log('update_member_myGroups req.body:', req.body)
-  console.log('req.params:', req.params)
+  console.log(
+    '\nupdate_member_myGroups req.body:',
+    req.body,
+    '| req.params:',
+    req.params,
+  )
+
   let member_id = req.params.id
   console.log('updating myGroups of member_id:', member_id)
   Member.findByIdAndUpdate(
     member_id,
     {
       $push: {
-        myGroups: req.body,
+        myGroups: req.body.groupID,
       },
     },
     {
@@ -156,8 +160,11 @@ router.route('/update_member_myGroups/:id').post((req, res) => {
     },
     function (err, data) {
       if (err) {
+        console.log('update_member_myGroups Member not found')
         res.json('Member not found :(').end()
       } else {
+        console.log('update_member_myGroups' + data)
+
         return res.json(data)
       }
     },

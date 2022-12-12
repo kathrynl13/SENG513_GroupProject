@@ -12,18 +12,18 @@ router.route('/find-group/:id').get(function (req, res) {
   console.log('find group by id: ' + req.params.id)
   Group.findById(req.params.id, function (err, data) {
     if (err) {
-      console.log(err)
+      console.log('find-group ERROR ' + err)
     } else {
       res.json(data)
-      console.log(data)
+      console.log('find-group DATA ' + data)
     }
   })
 })
 
 // Get Group by joinCode
 router.route('/find_group_byJoinCode/:joinCode').get(function (req, res) {
-  console.log('find-group get req.body:', req.body)
-  console.log('find-group get req.params:', req.params)
+  console.log('find_group_byJoinCode get req.body:', req.body)
+  console.log('find_group_byJoinCode get req.params:', req.params)
   const joinCode = req.params.joinCode
   Group.findOne(
     {
@@ -40,7 +40,7 @@ router.route('/find_group_byJoinCode/:joinCode').get(function (req, res) {
 //                           *** Post Requests ***
 // Create Group
 router.route('/create_group').post((req, res) => {
-  console.log('params', req.params, 'body: ', req.body)
+  console.log('create_group params', req.params, 'body: ', req.body)
   const groupName = req.body.groupName
   const joinCode = req.body.joinCode
   const createdBy = req.body.createdBy
@@ -59,14 +59,16 @@ router.route('/create_group').post((req, res) => {
     dueDate,
   })
 
-  console.log('making new group', newGroup)
-
   newGroup
     .save()
-    .then(() => res.json('Group added successfully!'))
-    .catch((err) =>
-      res.status(400).json('Could not added group, ERROR:\n' + err),
-    )
+    .then((response) => {
+      console.log('create_group response._id ' + response._id)
+      res.json(response._id)
+    })
+    .catch((err) => {
+      console.log('ayy ')
+      res.status(400).json('create_group : Could not add group, ERROR:\n' + err)
+    })
 })
 
 // Update group by given ID
@@ -96,7 +98,7 @@ router.route('/update_group/:id').post((req, res) => {
 // Update groupRules
 router.route('/update_groupRules/:id').post((req, res) => {
   console.log('update_groupRules req.body:', req.body)
-  console.log('req.params:', req.params)
+  console.log('update_groupRules req.params:', req.params)
   let group_id = req.params.id
   console.log('group_id:', group_id)
   Group.findByIdAndUpdate(group_id, { groupRules: req.body }, function (
@@ -114,7 +116,7 @@ router.route('/update_groupRules/:id').post((req, res) => {
 // Update Group Members
 router.route('/update_members/:id').post((req, res) => {
   console.log('update_members req.body:', req.body)
-  console.log('req.params:', req.params)
+  console.log('update_members req.params:', req.params)
   let game_id = req.params.id
   console.log('game_id:', game_id)
   Group.findByIdAndUpdate(
