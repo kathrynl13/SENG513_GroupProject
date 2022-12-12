@@ -380,78 +380,82 @@ io.on('connection', function (socket) {
   const santas = new Set()
   const santees = new Set()
 
-  socket.on('load-messages', memberid => {
-      axios
+  socket.on('load-messages', (memberid) => {
+    axios
       .get(APIs.find_member_byID + memberid)
       .then((res) => {
-              userInformation = res.data
+        userInformation = res.data
 
-              userInformation.buysFor.forEach(user => {
-                  axios
-                  .get(APIs.find_member_byID + user)
-                  .then((res) => {
-                      returnedUser = res.data
-                      socket.emit("known-user", [returnedUser.firstName + " " + returnedUser.lastName, returnedUser._id])
-                  })
-              })
+        userInformation.buysFor.forEach((user) => {
+          axios.get(APIs.find_member_byID + user).then((res) => {
+            returnedUser = res.data
+            socket.emit('known-user', [
+              returnedUser.firstName + ' ' + returnedUser.lastName,
+              returnedUser._id,
+            ])
+          })
+        })
 
-              for (user in userInformation.mySanta) {
-                  console.log(userInformation.myGroups[user])
-                  axios
-                  .get(APIs.find_group_byID + userInformation.myGroups[user]) 
-                  .then((res) => {
-                      socket.emit("unknown-user", [res.data.groupName, userInformation.mySanta[user]])
-                  })
-                  .catch((res) => console.log("Couldn't find group by ID " + res))
-              }
-      }) 
+        for (user in userInformation.mySanta) {
+          console.log(userInformation.myGroups[user])
+          axios
+            .get(APIs.find_group_byID + userInformation.myGroups[user])
+            .then((res) => {
+              socket.emit('unknown-user', [
+                res.data.groupName,
+                userInformation.mySanta[user],
+              ])
+            })
+            .catch((res) => console.log("Couldn't find group by ID " + res))
+        }
+      })
       .catch((res) => console.log("Couldn't find Messages " + res))
 
-      // Get all messages
-      axios
+    // Get all messages
+    axios
       .get(APIs.find_all_messages)
       .then((res) => {
-
-          // Store all messages
-          messages = res.data
-      }) 
+        // Store all messages
+        messages = res.data
+      })
       .catch((res) => console.log("Couldn't find Messages"))
-  });
+  })
 
-
-  socket.on('open-chat', data => {
-      if (currentRoom != null) {
-          socket.leave(currentRoom);
-      }
-      // Join the socket room of yourID + personYouAreMessagingID
-      currentRoom = data[0] + data[1];
-      socket.join(data[0] + data[1])
-
-      messages.forEach(message => {
-          if (message.fromMemberId == data[0] && message.toMemberId == data[1] || message.fromMemberId == data[1] && message.toMemberId == data[0]) {
-              socket.emit("message", message);
-          }
+  socket.on('open-chat', (data) => {
+    if (currentRoom != null) {
+      socket.leave(currentRoom)
+    }
+    // Join the socket room of yourID + personYouAreMessagingID
+    currentRoom = data[0] + data[1]
+    socket.join(data[0] + data[1])
+    if (messages) {
+      messages.forEach((message) => {
+        if (
+          (message.fromMemberId == data[0] && message.toMemberId == data[1]) ||
+          (message.fromMemberId == data[1] && message.toMemberId == data[0])
+        ) {
+          socket.emit('message', message)
+        }
       })
+    }
+  })
 
-  });
-
-  socket.on('send-message', message => {
-      body = {
-          fromMemberId: message[1],
-          toMemberId: message[2],
-          message: message[3],
-          date: message[0],
-      }
-      axios
+  socket.on('send-message', (message) => {
+    body = {
+      fromMemberId: message[1],
+      toMemberId: message[2],
+      message: message[3],
+      date: message[0],
+    }
+    axios
       .post(APIs.create_message, body)
-      .then((res) => {
-      })
+      .then((res) => {})
       .catch((res) => console.log(res + "Couldn't create Message"))
 
-      // Send message to the two people involved
-      socket.broadcast.to(message[2] + message[1]).emit("message", body);
-      socket.emit("message", body);
-  });
+    // Send message to the two people involved
+    socket.broadcast.to(message[2] + message[1]).emit('message', body)
+    socket.emit('message', body)
+  })
 
   // ----- End Messages functions ------
 })

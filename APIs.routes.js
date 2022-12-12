@@ -19,7 +19,7 @@ define('update_wishlist', membersPath + '/update_wishlist/:id')
 
 //                          *** Groups Routes ***
 const groupsPath = host + '/groups'
-define('find_all_groups', groupsPath + "'/'")
+define('find_all_groups', groupsPath + '/')
 define('find_group_byID', groupsPath + '/find-group/')
 define('find_group_byJoinCode', groupsPath + '/find_group_byJoinCode/') // make sure the anmea re right and teh slashes are right
 define('create_group', groupsPath + '/create_group')
@@ -28,12 +28,11 @@ define('update_groupRules', groupsPath + '/update_groupRules/:id')
 
 //                          *** Messages Routes ***
 const messagesPath = host + '/messages'
-define('find_all_messages', host + "'/'")
-define('find_toMemberId_message', messagesPath +
-  '/find_toMemberId_message/:toMemberId')
+define('find_all_messages', messagesPath + '/')
+define('find_toMemberId_message', messagesPath + '/find_toMemberId_message/')
 define('find_fromMemberId_message', messagesPath +
-  '/find_fromMemberId_message/:fromMemberId')
-define('create_message', messagesPath + '/create_message/:fromMemberId')
+  '/find_fromMemberId_message/')
+define('create_message', messagesPath + '/create_message/')
 
 /*                   -----  Front-End Use Example  -----
 import axios from 'axios'       // or const axios = require('axios') in server.js
