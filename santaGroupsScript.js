@@ -1,5 +1,5 @@
 var memberID = getCookie('memberid')
-var groupID;
+var groupID
 var groupArray
 let numberOfGroups = 0
 let groupCounter = 1
@@ -44,13 +44,13 @@ socket.on('group-information-reply', (group) => {
   document.getElementById(tempName).innerHTML = groupName
   let groupCode = group.joinCode
   document.getElementById(tempCode).innerHTML = groupCode
-/*   let org = group.organizerID
+  /*   let org = group.organizerID
   var tempMember = 'member' + groupCounter
   var tempEdit = 'edit' + groupCounter */
   var tempGroupID = 'groupid' + groupCounter
   document.getElementById(tempGroupID).innerHTML = group._id
   //check for coordinator - phased out
-/*   if (org == memberID) {
+  /*   if (org == memberID) {
     document.getElementById(tempEdit).style.display = 'block'
     document.getElementById(tempMember).style.display = 'none'
   } else {
@@ -59,8 +59,6 @@ socket.on('group-information-reply', (group) => {
   }  */
   groupCounter = groupCounter + 1
 })
-
-
 
 document.getElementById('group1').addEventListener('click', function () {
   eraseCookie('groupid')

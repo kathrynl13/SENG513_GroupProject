@@ -13,16 +13,17 @@ define('find_member_byID', membersPath + '/find-member/')
 define('find_member_byUsername', membersPath + '/find_member_byUsername/')
 define('find_member_bygroupIDs', membersPath + '/find-member/:groupIDs')
 define('create_member', membersPath + '/create_member')
-define('update_member', membersPath + '/update_member/')
-define('update_wishlist', membersPath + '/update_wishlist/')
+define('update_member', membersPath + '/update_member')
+define('update_member_myGroups', membersPath + '/update_member_myGroups/')
+define('update_wishlist', membersPath + '/update_wishlist/:id')
 
 //                          *** Groups Routes ***
 const groupsPath = host + '/groups'
 define('find_all_groups', groupsPath + "'/'")
 define('find_group_byID', groupsPath + '/find-group/')
-define('find_group_byJoinCode', groupsPath + '/find_group_byJoinCode/') // make sure the names are right and the slashes are right
+define('find_group_byJoinCode', groupsPath + '/find_group_byJoinCode/') // make sure the anmea re right and teh slashes are right
 define('create_group', groupsPath + '/create_group')
-define('update_group_byID', groupsPath + '/update_group_byID/') //'/update_group/:id')
+define('update_group_byId', groupsPath + '/update_group/:id')
 define('update_groupRules', groupsPath + '/update_groupRules/:id')
 
 //                          *** Messages Routes ***

@@ -1,7 +1,7 @@
 {
   "name": "seng513_groupproject-justin",
   "version": "1.0.0",
-  "description": "SENG 513 Group 17",
+  "description": "Front-End",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

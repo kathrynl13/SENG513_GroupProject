@@ -1,51 +1,50 @@
-
-#groups{
-    font-family: 'Century Gothic', CenturyGothic, Geneva, AppleGothic, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  #member,
-  #greeting {
-    color: green;
-  }
-  #greeting {
-    color: green;
-  }
-  #start {
-    color: #F92545;
-  }
-  #getStarted {
-display: inline-block;
+#groups {
+  font-family: 'Century Gothic', CenturyGothic, Geneva, AppleGothic, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
 }
-  #groups td,
-  #groups th {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
+#member,
+#greeting {
+  color: green;
+}
+#greeting {
+  color: green;
+}
+#start {
+  color: #f92545;
+}
+#getStarted {
+  display: inline-block;
+}
+#groups td,
+#groups th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
 td button {
-    background-color: green;
-    color: white;
-    border-color: green;
+  background-color: green;
+  color: white;
+  border-color: green;
 }
-.button{
-    background-color: green;
-    color: white;
-    border-color: green;
+.button {
+  background-color: green;
+  color: white;
+  border-color: green;
 }
-  #groups tr:hover {
-    background-color: #ddd;
-  }
+#groups tr:hover {
+  background-color: #ddd;
+}
 
-  #groups th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #F92545;
-    color: white;
-  }
-  #groups p{
-    color: green;
-  }
-.makeBlack{
-    color: black;
+#groups th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #f92545;
+  color: white;
+}
+#groups p {
+  color: green;
+}
+.makeBlack {
+  color: black;
 }
