@@ -11,9 +11,9 @@ router.route('/').get((req, res) => {
 router.route('/find-member/:id').get((req, res) => {
   console.log("id: " + req.params.id)
   Member.findById(req.params.id, function(err, data){
-    if(err){
+    if (err) {
       console.log(err)
-    }else{
+    } else {
       res.json(data)
       //console.log(data)
     }
@@ -64,26 +64,35 @@ router.route('/create_member').post((req, res) => {
   const lastName = req.body.lastName
   const username = req.body.username
   const email = req.body.email
+  const myGroups = req.body.myGroups
   const password = req.body.password
-  // const birthDate = Date.parse(req.body.date)
-  // const occupation = req.body.occupation
-  // const buysFor = req.body.buysFor
-  // const mySanta = req.body.mySanta
-  // const wishDetails = []
+  const birthDate = ""
+  const occupation = ""
+  const buysFor = []
+  const mySanta = []
+  const wishDetails = {
+    wish_want:"",
+    wish_need:"",
+    wish_eat:"",
+    wish_do:"",
+    wish_wear:"",
+    wish_learn:""
+  }
 
   const newMember = new Member({
     firstName,
     lastName,
     username,
     email,
+    myGroups,
     password,
-    // birthDate,
-    // occupation,
-    // buysFor,
-    // mySanta,
-    // wishDetails,
+    birthDate,
+    occupation,
+    buysFor,
+    mySanta,
+    wishDetails,
   })
-  console.log("newmember",newMember);
+  console.log("making new member",newMember);
 
   newMember
     .save()
@@ -97,40 +106,42 @@ router.route('/update_wishlist/:id').post((req, res) => {
   console.log('req.params:', req.params)
   let member_id = req.params.id
   console.log('member_id:', member_id)
-  Member.findByIdAndUpdate(
-    member_id,
-    {wishDetails: req.body},
-    function (err, data) {
-      if (err) {
-        res.json('wishDetails not found :(').end()
-      } else {
-        return res.json(data)
-      }
-    },
-  )
+  Member.findByIdAndUpdate(member_id, { wishDetails: req.body }, function (
+    err,
+    data,
+  ) {
+    if (err) {
+      res.json('wishDetails not found :(').end()
+    } else {
+      return res.json(data)
+    }
+  })
 })
 
 // Update member by given ID
 router.route('/update_member/:id').post((req, res) => {
-  console.log("memberID: " + req.params.id)
+  console.log('memberID: ' + req.params.id)
   Member.findByIdAndUpdate(
-    {_id:req.params.id},
-    { firstName:req.body.firstName,
-      lastName:req.body.lastName,
-      username:req.body.username,
-      email:req.body.email,
-      occupation:req.body.occupation,
-      birthDate: Date.parse(req.body.birthDate),       
+    { _id: req.params.id },
+    {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      username: req.body.username,
+      email: req.body.email,
+      myGroups: req.body.myGroups,
+      occupation: req.body.occupation,
+      birthDate: req.body.birthDate,
       password: req.body.password,
       buysFor: req.body.buysFor,
-      mySanta: req.body.mySanta }, 
-    function(err, result){
-      if(err){
+      mySanta: req.body.mySanta,
+    },
+    function (err, result) {
+      if (err) {
         res.status(400).json('Error: ' + err)
-      }else{
+      } else {
         res.send(result)
       }
-    }
+    },
   )
 })
 

@@ -24,9 +24,10 @@ createButton.addEventListener('click', function() {
         fname: fname.value,
         lname: lname.value,
         email: email.value,
-        user: newusername.value,
-        pass: newpassword.value
+        username: newusername.value,
+        password: newpassword.value
     };
+    // console.log("SDFSDF", newUser);
     socket.emit("newAccount", newUser);
 
     // redirect back home to log in

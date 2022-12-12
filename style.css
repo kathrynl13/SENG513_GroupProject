@@ -60,7 +60,7 @@ html {
 .header{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
         background-color: #F92545;
         margin:-10px;
@@ -74,7 +74,6 @@ html {
 @media (max-width: 700px) {
     .menu{
       display: none;
-      width: 0px;
     }
     .grid-container {
         grid-template-areas:
@@ -95,6 +94,7 @@ html {
         grid-template-columns: auto auto auto;
     }
 
+
 }
 /* footer */
 .footer {
@@ -113,7 +113,7 @@ html {
 
 .mainToChange{
     background-color: white;
-    border-style: none;
+    /* border-style: solid; */
 }
 
 .line {
@@ -319,9 +319,48 @@ html {
     border-color: green;
     align-items: right;
 }
+
+/* for template */
+
+.logout {
+    text-align:right;
+}
+
+.crest {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.logout button {
+    background-color: green;
+    color: white;
+    border-color: green;
+    align-items: right;
+}
+
 /* end of CSS for home and create account page */
 
-/* Bowo */
+.inputFields p {
+    color:black;
+    text-align: left;
+}
+
+.inputFields h3 {
+    margin-top: 0px;
+    margin-bottom: 1em;
+}
+
+.editButton button {
+    background-color: green;
+    color: white;
+    border-color: green;
+    text-align: center;
+}
+
+
 .flex-container {
     display: flex;
     flex-wrap: wrap;
@@ -350,20 +389,11 @@ html {
     width: 30%;
 }
 
-#updateButton {
-    background-color: rgb(251, 204, 98, 76%);
-}
-
-#cancelButton {
-    background-color: rgb(251, 204, 98, 45%);
-}
-
 #updateButton , #cancelButton {
-    display: inline-block;
-    margin: 10px;
-    border-radius: 40%;
-    width: 90px;
-    text-decoration: none;
+    background-color: green;
+    color: white;
+    border-color: green;
+    align-items: right;
 }
 
 #settingsForm {
@@ -393,18 +423,21 @@ html {
     width: 30%
 }
 
-.GroupName, .DueDate, .PriceLimit {
-    width: 500px; 
-    border-color: #F92545;
-    color: #F92545;
-    font-size: 30px;
-    text-align: left; 
+.createGroup {
+    font-family:"Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+
 }
 
-.SecretSanta {
-    border-color: #F92545;
-    border: solid;
-    border-radius: 25%;
-    text-align: center;
+.groupdeets {
+    font-family:"Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
 }
-/* End of Bowo */
+
+#drawNames {
+    font-size: xx-large;
+    background-color: green;
+    color: white;
+    border-color: green;
+    align-items: right;
+}
+
+
