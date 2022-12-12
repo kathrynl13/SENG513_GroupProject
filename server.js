@@ -117,6 +117,14 @@ io.on('connection', function (socket) {
     const password = newUser.password
     const occupation = ''
     const birthDate = Date()
+    const wishDetails = {
+      wish_want: '',
+      wish_need: '',
+      wish_eat: '',
+      wish_do: '',
+      wish_wear: '',
+      wish_learn: '',
+    }
 
     const newMember = {
       firstName,
@@ -192,7 +200,7 @@ io.on('connection', function (socket) {
 
                 // post update member
                 axios
-                  .post(APIs.update_member + res.data._id, res.data)
+                  .post(APIs.update_member + res.data.id, res.data)
                   .then((res) => {
                     console.log('Member information updated !')
                   })

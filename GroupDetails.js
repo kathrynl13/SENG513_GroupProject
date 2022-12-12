@@ -177,7 +177,7 @@ function setMemberInformation() {
 socket.on('member-information-reply', (member) => {
   if (intialMember == false && gotBuying == false) {
     for (let i = 0; i < groupMembers.length; i++) {
-      if (groupMembers[i] == member._id) {
+      if (member && groupMembers[i] == member._id) {
         memberObjectArray[i] = member
         //console.log("setting member: " + member.firstName)
         break

@@ -14,23 +14,27 @@ const socket = io('http://localhost:5000')
 socket.emit('member-information-request', memberID)
 
 socket.on('member-information-reply', (member) => {
-  document.getElementById('wishlist-want').innerHTML =
-    member.wishDetails.wish_want
-  document.getElementById('wishlist-need').innerHTML =
-    member.wishDetails.wish_need
-  document.getElementById('wishlist-wear').innerHTML =
-    member.wishDetails.wish_wear
-  document.getElementById('wishlist-do').innerHTML = member.wishDetails.wish_do
-  document.getElementById('wishlist-eat').innerHTML =
-    member.wishDetails.wish_eat
-  document.getElementById('wishlist-learn').innerHTML =
-    member.wishDetails.wish_learn
-  wishDetails.wish_want = member.wishDetails.wish_want
-  wishDetails.wish_need = member.wishDetails.wish_need
-  wishDetails.wish_eat = member.wishDetails.wish_eat
-  wishDetails.wish_do = member.wishDetails.wish_do
-  wishDetails.wish_wear = member.wishDetails.wish_wear
-  wishDetails.wish_learn = member.wishDetails.wish_learn
+  console.log('member %%%', member)
+  if (member) {
+    document.getElementById('wishlist-want').innerHTML =
+      member.wishDetails.wish_want
+    document.getElementById('wishlist-need').innerHTML =
+      member.wishDetails.wish_need
+    document.getElementById('wishlist-wear').innerHTML =
+      member.wishDetails.wish_wear
+    document.getElementById('wishlist-do').innerHTML =
+      member.wishDetails.wish_do
+    document.getElementById('wishlist-eat').innerHTML =
+      member.wishDetails.wish_eat
+    document.getElementById('wishlist-learn').innerHTML =
+      member.wishDetails.wish_learn
+    wishDetails.wish_want = member.wishDetails.wish_want
+    wishDetails.wish_need = member.wishDetails.wish_need
+    wishDetails.wish_eat = member.wishDetails.wish_eat
+    wishDetails.wish_do = member.wishDetails.wish_do
+    wishDetails.wish_wear = member.wishDetails.wish_wear
+    wishDetails.wish_learn = member.wishDetails.wish_learn
+  }
 })
 
 document
