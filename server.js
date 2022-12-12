@@ -418,15 +418,6 @@ io.on('connection', function (socket) {
         }
       })
       .catch((res) => console.log("Couldn't find Messages " + res))
-
-    // Get all messages
-    axios
-      .get(APIs.find_all_messages)
-      .then((res) => {
-        // Store all messages
-        messages = res.data
-      })
-      .catch((res) => console.log("Couldn't find Messages"))
   })
 
   socket.on('open-chat', (data) => {
@@ -436,7 +427,13 @@ io.on('connection', function (socket) {
     // Join the socket room of yourID + personYouAreMessagingID
     currentRoom = data[0] + data[1]
     socket.join(data[0] + data[1])
-    if (messages) {
+
+    // Get all messages
+    axios
+    .get(APIs.find_all_messages)
+    .then((res) => {
+      // Store all messages
+      messages = res.data
       messages.forEach((message) => {
         if (
           (message.fromMemberId == data[0] && message.toMemberId == data[1]) ||
@@ -445,7 +442,8 @@ io.on('connection', function (socket) {
           socket.emit('message', message)
         }
       })
-    }
+    })
+    .catch((res) => console.log("Couldn't find Messages"))
   })
 
   socket.on('send-message', (message) => {
