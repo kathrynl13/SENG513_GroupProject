@@ -237,7 +237,22 @@ io.on('connection', function (socket) {
       priceLimit,
       dueDate,
     }
-    console.log('New Group: ' + newGroup)
+    console.log(
+      'New Group: ' +
+        groupName +
+        ' joinCode: ' +
+        joinCode +
+        ' createdBy: ' +
+        createdBy +
+        ' groupMembers: ' +
+        groupMembers +
+        ' groupRules:' +
+        groupRules +
+        ' priceLimit: ' +
+        priceLimit +
+        ' dueDate: ' +
+        dueDate,
+    )
     var createGroup_id = ''
     try {
       createGroup_id = await axios
@@ -262,9 +277,10 @@ io.on('connection', function (socket) {
   // emits from createGroup.js
   socket.on('GroupInfoInputted', (name, limit, date, memberID) => {
     console.log('@@@@@@@ ' + memberID)
-    createGroup(memberID, name, date, limit)
+    createGroup(name, limit, date, memberID)
       .then((groupCreated_id) => {
         // add the group to groups array in the member
+        console.log('!!!!! ' + groupCreated_id)
         if (groupCreated_id) {
           axios
             .post(APIs.update_member_myGroups + memberID, {

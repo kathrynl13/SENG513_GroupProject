@@ -1,5 +1,6 @@
 const socket = io.connect('http://localhost:5000')
-const memberID = '63938c38212094b434c4feed' // to be replaced by cookies
+const memberID = getCookie('memberid')
+
 var cancelButton = document.getElementById('cancelButton'),
   addRuleButton = document.getElementById('addRuleButton')
 
@@ -122,3 +123,15 @@ function addRuleClicked(e) {
   input2.name = 'rules'
   rule1.appendChild(input2)
 }
+///////////////////////// https://stackoverflow.com/questions/2144386/how-to-delete-a-cookie/////////////////////////////
+function getCookie(name) {
+  var nameEQ = name + '='
+  var ca = document.cookie.split(';')
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i]
+    while (c.charAt(0) == ' ') c = c.substring(1, c.length)
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length)
+  }
+  return null
+}
+/////////////////////////end of cited code//////////////////////////////////////

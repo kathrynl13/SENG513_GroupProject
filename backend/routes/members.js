@@ -64,17 +64,17 @@ router.route('/create_member').post((req, res) => {
   const email = req.body.email
   const myGroups = req.body.myGroups
   const password = req.body.password
-  const birthDate = ""
-  const occupation = ""
+  const birthDate = ''
+  const occupation = ''
   const buysFor = []
   const mySanta = []
   const wishDetails = {
-    wish_want:"",
-    wish_need:"",
-    wish_eat:"",
-    wish_do:"",
-    wish_wear:"",
-    wish_learn:""
+    wish_want: '',
+    wish_need: '',
+    wish_eat: '',
+    wish_do: '',
+    wish_wear: '',
+    wish_learn: '',
   }
 
   const newMember = new Member({
@@ -90,7 +90,7 @@ router.route('/create_member').post((req, res) => {
     mySanta,
     wishDetails,
   })
-  console.log("making new member",newMember);
+  console.log('making new member', newMember)
 
   newMember
     .save()
@@ -168,7 +168,7 @@ router.route('/update_member_myGroups/:id').post((req, res) => {
         console.log('update_member_myGroups Member not found')
         res.json('Member not found :(').end()
       } else {
-        console.log('update_member_myGroups' + data)
+        console.log('update_member_myGroups ' + data)
 
         return res.json(data)
       }
