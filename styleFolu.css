@@ -74,6 +74,7 @@ html {
 @media (max-width: 700px) {
     .menu{
       display: none;
+      width: 0px;
     }
     .grid-container {
         grid-template-areas:
@@ -94,7 +95,6 @@ html {
         grid-template-columns: auto auto auto;
     }
 
-
 }
 /* footer */
 .footer {
@@ -113,7 +113,7 @@ html {
 
 .mainToChange{
     background-color: white;
-    border-style: solid;
+    border-style: none;
 }
 
 .line {
@@ -322,6 +322,11 @@ html {
 /* end of CSS for home and create account page */
 
 /* Bowo */
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
 .flex-container > div {
     margin: 0px;
     padding: 0px;
@@ -334,11 +339,72 @@ html {
     border-style: solid;
     border-radius: 25%;
     margin: 5px;
-    width: 150px;
+    width: 30%;
+    font-size: 30px;
+    color: #3C8B49;
+}
+
+#rulePerson1, #rulePerson2 {
+    border-radius: 25%;
+    border-color: #F92545;
+    width: 30%;
+}
+
+#updateButton {
+    background-color: rgb(251, 204, 98, 76%);
+}
+
+#cancelButton {
+    background-color: rgb(251, 204, 98, 45%);
 }
 
 #updateButton , #cancelButton {
     display: inline-block;
+    margin: 10px;
+    border-radius: 40%;
+    width: 90px;
+    text-decoration: none;
 }
 
+#settingsForm {
+    width: 300px;
+    border-color: #F92545;
+    font-weight: bold;
+}
+
+#Name, #DueDate, #PriceLimit {
+    width: 300px; 
+    border-color: #F92545; 
+    /* font-weight: bold; */
+}
+
+#addRuleButton {
+    background-color: #3C8B49;
+    color: white;
+    text-align: left;
+}
+
+.ruleLabel {
+    width: 30%;
+    font-size: auto;
+}
+
+.customRules {
+    width: 30%
+}
+
+.GroupName, .DueDate, .PriceLimit {
+    width: 500px; 
+    border-color: #F92545;
+    color: #F92545;
+    font-size: 30px;
+    text-align: left; 
+}
+
+.SecretSanta {
+    border-color: #F92545;
+    border: solid;
+    border-radius: 25%;
+    text-align: center;
+}
 /* End of Bowo */
